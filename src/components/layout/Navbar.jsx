@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '../ui/Button';
 
 const Navbar = () => {
+  const [isDark, setIsDark] = useState(true);
+
+  const toggleTheme = () => {
+    setIsDark(!isDark);
+    document.documentElement.classList.toggle('dark');
+  };
+
   return (
     <nav className="fixed top-4 left-4 right-4 z-[100] pointer-events-auto transition-all duration-300">
       <div className="bg-black/60 backdrop-blur-3xl border border-white/5 px-6 py-2.5 rounded-2xl flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.6)] border-l-4 border-l-tertiary">
@@ -48,6 +55,16 @@ const Navbar = () => {
             </a>
           </div>
           
+          <button 
+            onClick={toggleTheme}
+            className="flex items-center justify-center p-2 mr-2 rounded-full hover:bg-white/5 text-white/60 hover:text-white transition-colors"
+            title="Toggle Theme"
+          >
+            <span className="material-symbols-outlined text-[18px]">
+              {isDark ? 'light_mode' : 'dark_mode'}
+            </span>
+          </button>
+
           <a href="/auth" className="bg-[#b388ff] text-black font-mono font-black px-6 py-1.5 rounded-full tracking-tighter text-[11px] hover:bg-[#c29cff] transition-all active:scale-95 shadow-[0_0_20px_rgba(179,136,255,0.4)] border-none uppercase inline-flex items-center justify-center">
             SYSTEM_LOGIN
           </a>
