@@ -53,7 +53,10 @@ const DashboardPreview = () => {
                             <p className="text-white/40 text-xs font-mono mb-4">Input validation missing in login controller.</p>
                             <div className="flex justify-between items-center text-[10px] font-mono text-white/30">
                                 <span className="flex items-center gap-1"><span className="material-symbols-outlined text-[14px]">chat</span> 3 comments</span>
-                                <span className="text-[#00f5ff]">View Remediation &rarr;</span>
+                                <div className="flex gap-4">
+                                    <span className="text-[#d1b3ff]">Consult Expert &rarr;</span>
+                                    <span className="text-[#00f5ff]">View Remediation &rarr;</span>
+                                </div>
                             </div>
                         </div>
 

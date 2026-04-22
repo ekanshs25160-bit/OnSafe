@@ -25,10 +25,10 @@ const Hero = () => {
 
           <div className="flex flex-wrap gap-6 pt-4">
             <a href="/auth" className="bg-[#d1b3ff] text-black font-mono font-black px-10 py-4 rounded-xl tracking-widest text-xs hover:bg-[#e1ccff] transition-all active:scale-95 shadow-[0_0_30px_rgba(209,179,255,0.4)] uppercase inline-block">
-              INITIATE_PROTOCOL
+              SECURE YOUR MVP
             </a>
             <a href="/sprints" className="bg-transparent border border-[#00f5ff]/40 text-[#00f5ff] font-mono font-bold px-10 py-4 rounded-xl tracking-widest text-xs hover:bg-[#00f5ff]/10 hover:border-[#00f5ff] transition-all active:scale-95 uppercase inline-block">
-              BROWSE_SPRINTS
+              ACCESS MARKETPLACE
             </a>
           </div>
 

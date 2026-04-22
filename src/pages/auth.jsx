@@ -61,7 +61,7 @@ const AuthenticationPage = () => {
               >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-[#d1b3ff]/10 blur-3xl pointer-events-none group-hover:bg-[#d1b3ff]/20 transition-colors"></div>
                   <span className="material-symbols-outlined text-[40px] text-[#d1b3ff] mb-6">rocket_launch</span>
-                  <h2 className="font-space font-bold text-2xl text-white uppercase mb-2">I am a Founder</h2>
+                  <h2 className="font-space font-bold text-2xl text-white uppercase mb-2">I am a Founder.</h2>
                   <p className="font-mono text-[11px] text-white/50 tracking-widest uppercase">Securing an MVP / Startup</p>
               </button>
 
@@ -71,7 +71,7 @@ const AuthenticationPage = () => {
               >
                   <div className="absolute top-0 right-0 w-32 h-32 bg-[#00f5ff]/10 blur-3xl pointer-events-none group-hover:bg-[#00f5ff]/20 transition-colors"></div>
                   <span className="material-symbols-outlined text-[40px] text-[#00f5ff] mb-6">terminal</span>
-                  <h2 className="font-space font-bold text-2xl text-white uppercase mb-2">I am an Operative</h2>
+                  <h2 className="font-space font-bold text-2xl text-white uppercase mb-2">I am a Security Expert.</h2>
                   <p className="font-mono text-[11px] text-white/50 tracking-widest uppercase">Joining the Elite Network</p>
               </button>
            </div>
