@@ -7,7 +7,7 @@ const SecuritySprintMarketplace = () => {
     {
       tier: "TIER_01",
       name: "API Security Sprint",
-      price: "$1,200",
+      price: "₹1,200",
       focus: ["Endpoint Scans", "Data Exposure", "Rate Limiting Checks"],
       timeline: "5 Days",
       color: "#39ff14"
@@ -15,7 +15,7 @@ const SecuritySprintMarketplace = () => {
     {
       tier: "TIER_02",
       name: "Auth Protocol Audit",
-      price: "$2,500",
+      price: "₹2,500",
       focus: ["OAuth/JWT Validation", "Session Hijacking Prev.", "MFA Enforcement"],
       timeline: "10 Days",
       color: "#00f5ff",
@@ -24,7 +24,7 @@ const SecuritySprintMarketplace = () => {
     {
       tier: "TIER_03",
       name: "Full Startup MVP Scan",
-      price: "$4,800",
+      price: "₹4,800",
       focus: ["Comprehensive Code Review", "Cloud Arch Audit", "Penetration Testing"],
       timeline: "21 Days",
       color: "#d1b3ff"

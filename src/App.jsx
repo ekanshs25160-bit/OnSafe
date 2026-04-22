@@ -4,6 +4,7 @@ import Team from './pages/team';
 import SecuritySprintMarketplace from './pages/projects';
 import Dashboard from './pages/dashboard';
 import AuthenticationPage from './pages/auth';
+import LegalHub from './pages/legal';
 import './styles/globals.css';
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
        path === '/sprints' ? <SecuritySprintMarketplace /> : 
        path === '/dashboard' ? <Dashboard /> : 
        path === '/auth' ? <AuthenticationPage /> : 
+       path === '/legal' ? <LegalHub /> : 
        <Home />}
     </div>
   );
