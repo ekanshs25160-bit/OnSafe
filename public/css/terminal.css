@@ -1,0 +1,104 @@
+/* Terminal Container */
+.terminal-container {
+    width: 85%;
+    max-width: 800px;
+    height: 60vh;
+    display: flex;
+    flex-direction: column;
+    padding: 0px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 4px 64px rgba(0, 0, 0, 0.4);
+}
+
+.terminal-header {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.terminal-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.terminal-dot.red { background-color: #ff5f56; }
+.terminal-dot.yellow { background-color: #ffbd2e; }
+.terminal-dot.green { background-color: #27c93f; }
+
+.terminal-title {
+    margin-left: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.terminal-content {
+    flex: 1;
+    padding: 24px;
+    overflow-y: auto;
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    color: var(--acc-color);
+    scroll-behavior: smooth;
+}
+
+.terminal-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.terminal-content::-webkit-scrollbar-thumb {
+    background: rgba(85, 255, 221, 0.2);
+    border-radius: 3px;
+}
+
+.terminal-input-line {
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.terminal-prompt {
+    font-family: var(--font-mono);
+    color: var(--secondary-color);
+    font-weight: 700;
+}
+
+#terminal-input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--acc-color);
+    font-family: var(--font-mono);
+    font-size: 1rem;
+    flex: 1;
+}
+
+/* Typing Animation Logic */
+.terminal-line {
+    margin-bottom: 6px;
+    white-space: pre-wrap;
+}
+
+.terminal-line.success { color: #55ffdd; }
+.terminal-line.error { color: #ff3c8a; }
+.terminal-line.system { color: #aaaaaa; font-style: italic; }
+
+@keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.cursor {
+    display: inline-block;
+    width: 8px;
+    height: 1.2rem;
+    background: var(--acc-color);
+    margin-left: 4px;
+    animation: cursor-blink 1s infinite step-end;
+}

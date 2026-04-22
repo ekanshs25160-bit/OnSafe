@@ -1,0 +1,82 @@
+/* Glitch Effect */
+@keyframes glitch {
+  0% { transform: translate(0); }
+  20% { transform: translate(-2px, 2px); }
+  40% { transform: translate(-2px, -2px); }
+  60% { transform: translate(2px, 2px); }
+  80% { transform: translate(2px, -2px); }
+  100% { transform: translate(0); }
+}
+
+.glitch:hover {
+  animation: glitch 0.3s infinite;
+  color: var(--accent-color);
+  text-shadow: 2px 0 red, -2px 0 blue;
+}
+
+/* Typing Cursor Animation */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.cursor {
+  display: inline-block;
+  width: 10px;
+  height: 20px;
+  background-color: var(--accent-color);
+  margin-left: 5px;
+  animation: blink 0.8s step-end infinite;
+  vertical-align: middle;
+}
+
+/* Fade In Up Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  opacity: 0;
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.delay-1 { animation-delay: 0.1s; }
+.delay-2 { animation-delay: 0.2s; }
+.delay-3 { animation-delay: 0.3s; }
+.delay-4 { animation-delay: 0.4s; }
+
+/* Pulse Animation for Accents */
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0, 255, 156, 0.3); }
+  50% { box-shadow: 0 0 20px rgba(0, 255, 156, 0.8); }
+}
+
+.pulse {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+/* Page Transitions */
+.page-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: var(--bg-color);
+  z-index: 10000;
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.85, 0, 0.15, 1);
+  pointer-events: none;
+}
+
+.page-transition.active {
+  transform: translateY(0);
+  pointer-events: all;
+}
