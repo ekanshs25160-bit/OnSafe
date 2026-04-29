@@ -1,13 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from '../ui/Button';
 
 const Navbar = () => {
-  const [isDark, setIsDark] = useState(true);
+  // Initialise from localStorage; default is dark
+  const [isLight, setIsLight] = useState(() => {
+    const saved = localStorage.getItem('onsafe-theme');
+    return saved === 'light';
+  });
 
-  const toggleTheme = () => {
-    setIsDark(!isDark);
-    document.documentElement.classList.toggle('dark');
-  };
+  // Apply class to <html> whenever isLight changes
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isLight) {
+      root.classList.add('light');
+    } else {
+      root.classList.remove('light');
+    }
+    localStorage.setItem('onsafe-theme', isLight ? 'light' : 'dark');
+  }, [isLight]);
+
+  // On first mount, sync html class with stored preference
+  useEffect(() => {
+    if (isLight) {
+      document.documentElement.classList.add('light');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <nav className="fixed top-4 left-4 right-4 z-[100] pointer-events-auto transition-all duration-300">
@@ -45,13 +63,17 @@ const Navbar = () => {
             </a>
           </div>
           
-          <button 
-            onClick={toggleTheme}
-            className="flex items-center justify-center p-2 mr-2 rounded-full hover:bg-white/5 text-white/60 hover:text-white transition-colors"
-            title="Toggle Theme"
+          {/* Theme Toggle */}
+          <button
+            onClick={() => setIsLight(prev => !prev)}
+            title={isLight ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+            className="flex items-center gap-1.5 px-2.5 py-1.5 mr-2 rounded-lg border border-white/10 hover:border-white/20 hover:bg-white/5 text-white/60 hover:text-white transition-all"
           >
-            <span className="material-symbols-outlined text-[18px]">
-              {isDark ? 'light_mode' : 'dark_mode'}
+            <span className="material-symbols-outlined text-[18px] leading-none transition-transform duration-300" style={{ transform: isLight ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+              {isLight ? 'dark_mode' : 'light_mode'}
+            </span>
+            <span className="font-mono text-[9px] uppercase tracking-widest hidden md:inline">
+              {isLight ? 'DARK' : 'LIGHT'}
             </span>
           </button>
 
@@ -65,4 +87,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

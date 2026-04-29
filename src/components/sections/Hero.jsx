@@ -3,7 +3,7 @@ import Button from "../ui/Button";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden bg-[#0b111a]" data-stitch-vh="min-h-[884px]===min-h-screen">
+    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden pb-24 bg-[#0b111a]" data-stitch-vh="min-h-[884px]===min-h-screen">
       {/* HUD Scanline Effect Overlay */}
       <div className="absolute inset-0 scanline opacity-10 pointer-events-none"></div>
 
@@ -98,17 +98,10 @@ const Hero = () => {
                   <span>PROTOCOL:</span> <span className="text-primary font-bold">TCP_V4_SEC</span>
                </div>
                <div className="flex justify-between uppercase">
-                  <span>NODE_ADDR:</span> <span className="text-[#d1b3ff] font-bold">US-WEST-01</span>
+                  <span>NODE_ADDR:</span> <span className="text-[#d1b3ff] font-bold">INDIA-01</span>
                </div>
             </div>
          </div>
-      </div>
-
-      {/* Background data bleed decoration */}
-      <div className="absolute bottom-10 left-10 font-mono text-[10px] text-white/5 select-none pointer-events-none leading-tight hidden xl:block">
-        0x5343535f434f52455f5632<br />
-        STARK_NET_PROTOCOL_V3<br />
-        LOC: GLOBAL_MESH_01_CALI
       </div>
     </section>
   );

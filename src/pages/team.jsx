@@ -95,12 +95,12 @@ const ExpertDirectory = () => {
                             </button>
                         ))}
                     </div>
-                     <div className="relative w-full lg:w-72">
-                         <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-white/30 text-[18px]">search</span>
-                         <input 
-                            type="text" 
-                            placeholder="SEARCH_NODE..." 
-                            className="w-full bg-black/40 border border-white/10 rounded-lg py-2.5 pl-10 pr-4 font-mono text-xs text-white placeholder-white/30 focus:outline-none focus:border-[#d1b3ff] transition-colors"
+                     <div className="flex items-center w-full lg:w-72 bg-black/40 border border-white/10 rounded-lg px-3 focus-within:border-[#d1b3ff] transition-colors">
+                         <span className="material-symbols-outlined text-white/30 text-[18px] shrink-0">search</span>
+                         <input
+                             type="text"
+                             placeholder="SEARCH_NODE..."
+                             className="flex-1 bg-transparent py-2.5 pl-2 pr-2 font-mono text-xs text-white placeholder-white/30 focus:outline-none"
                          />
                      </div>
                 </div>

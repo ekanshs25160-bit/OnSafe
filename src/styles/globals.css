@@ -26,6 +26,33 @@
   --tertiary-accent: #39FF14;
   --glass-bg: rgba(14, 14, 14, 0.6);
   --glass-border: rgba(73, 72, 71, 0.2);
+  /* Page-level tokens used by App wrapper */
+  --page-bg: #0b111a;
+  --page-text: #e6edf3;
+  --card-bg: rgba(0,0,0,0.4);
+  --card-border: rgba(255,255,255,0.05);
+  --input-bg: rgba(0,0,0,0.4);
+  --input-border: rgba(255,255,255,0.10);
+  --navbar-bg: rgba(0,0,0,0.60);
+}
+
+/* ── Light Mode Overrides ──────────────────────────────── */
+html.light {
+  --bg-color: #f1f5f9;
+  --surface-low: #ffffff;
+  --surface-mid: #f8fafc;
+  --surface-high: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --glass-bg: rgba(255,255,255,0.65);
+  --glass-border: rgba(0,0,0,0.08);
+  --page-bg: #f1f5f9;
+  --page-text: #0f172a;
+  --card-bg: rgba(255,255,255,0.55);
+  --card-border: rgba(0,0,0,0.08);
+  --input-bg: rgba(255,255,255,0.7);
+  --input-border: rgba(0,0,0,0.12);
+  --navbar-bg: rgba(248,250,252,0.80);
 }
 
 * {
@@ -40,6 +67,7 @@ body {
   font-family: var(--font-inter);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 
@@ -139,3 +167,134 @@ body {
 .animate-fade-in {
   animation: fadeIn 1s forwards;
 }
+
+/* ═══════════════════════════════════════════════════
+   LIGHT MODE COMPONENT OVERRIDES
+   Applied when html.light is set
+   ═══════════════════════════════════════════════════ */
+
+/* Home container & bg-base sections */
+html.light .bg-bg-base,
+html.light .home-container {
+  background-color: #f1f5f9 !important;
+}
+
+/* Stats section — bg-surface-mid was #1a1919 (dark) */
+html.light .stats {
+  background-color: #e2e8f0 !important;
+  border-color: rgba(0,0,0,0.08) !important;
+}
+html.light .stat-item span.text-white,
+html.light .stat-item span {
+  color: #0f172a !important;
+}
+
+/* All page root wrappers */
+html.light .bg-\[\#0b111a\],
+html.light .bg-\[\#0b131a\],
+html.light .bg-\[\#05080c\] {
+  background-color: var(--page-bg) !important;
+}
+
+/* Navbar */
+html.light nav > div {
+  background: var(--navbar-bg) !important;
+  border-color: rgba(0,0,0,0.08) !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.08) !important;
+}
+html.light .nav-item span.material-symbols-outlined,
+html.light .nav-item span {
+  color: #334155 !important;
+}
+html.light .nav-item:hover {
+  background: rgba(0,0,0,0.05) !important;
+}
+html.light .nav-item span.font-mono {
+  color: #475569 !important;
+}
+
+/* Cards / glassmorphism panels */
+html.light .bg-black\/40,
+html.light .bg-black\/60,
+html.light .bg-black\/50 {
+  background-color: var(--card-bg) !important;
+  backdrop-filter: blur(12px);
+}
+html.light .border-white\/5,
+html.light .border-white\/10 {
+  border-color: var(--card-border) !important;
+}
+
+/* Text colours */
+html.light .text-white {
+  color: #0f172a !important;
+}
+html.light .text-white\/60,
+html.light .text-white\/50,
+html.light .text-white\/70 {
+  color: #475569 !important;
+}
+html.light .text-white\/40,
+html.light .text-white\/30 {
+  color: #94a3b8 !important;
+}
+html.light .text-white\/80 {
+  color: #1e293b !important;
+}
+
+/* Monospace / technical data — boost contrast */
+html.light .font-mono {
+  color: #1e293b;
+}
+html.light .font-mono.text-white\/40,
+html.light .font-mono.text-white\/50 {
+  color: #64748b !important;
+}
+
+/* Inputs / search */
+html.light input,
+html.light textarea {
+  background: var(--input-bg) !important;
+  border-color: var(--input-border) !important;
+  color: #0f172a !important;
+}
+html.light input::placeholder {
+  color: #94a3b8 !important;
+}
+
+/* Footer */
+html.light footer {
+  background-color: #e2e8f0 !important;
+  border-color: rgba(0,0,0,0.06) !important;
+}
+
+/* Neon accents — keep vibrant, just reduce glow opacity */
+html.light .shadow-\[0_0_12px_rgba\(57\,255\,20\,0\.8\)\] {
+  box-shadow: 0 0 8px rgba(16,185,129,0.5) !important;
+}
+html.light .shadow-\[0_0_20px_rgba\(0\,245\,255\,0\.3\)\] {
+  box-shadow: 0 0 12px rgba(0,185,200,0.25) !important;
+}
+
+/* Preserve accent text colours */
+html.light .text-\[\#39ff14\] { color: #16a34a !important; }
+html.light .text-\[\#00f5ff\] { color: #0891b2 !important; }
+html.light .text-\[\#d1b3ff\] { color: #7c3aed !important; }
+html.light .text-\[\#ffcc00\] { color: #b45309 !important; }
+html.light .text-\[\#ff4d4d\] { color: #dc2626 !important; }
+
+/* Accent backgrounds */
+html.light .bg-\[\#39ff14\]\/10 { background-color: rgba(22,163,74,0.12) !important; }
+html.light .bg-\[\#00f5ff\]\/10 { background-color: rgba(8,145,178,0.10) !important; }
+html.light .border-\[\#39ff14\]\/30 { border-color: rgba(22,163,74,0.30) !important; }
+html.light .border-\[\#00f5ff\]\/30 { border-color: rgba(8,145,178,0.25) !important; }
+html.light .border-\[\#d1b3ff\]\/30 { border-color: rgba(124,58,237,0.25) !important; }
+
+/* White/5 borders on cards */
+html.light .bg-white\/5 {
+  background-color: rgba(0,0,0,0.04) !important;
+}
+
+/* No-scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
