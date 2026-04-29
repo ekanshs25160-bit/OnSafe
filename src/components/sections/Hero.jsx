@@ -20,31 +20,36 @@ const Hero = () => {
           </h1>
 
           <p className="text-white/60 text-lg md:text-xl max-w-xl font-inter leading-relaxed font-medium">
-            <span className="text-white">OnSafe</span> is a trust-driven collaboration platform designed to help early-stage ventures secure their MVPs through verified expert partnerships and affordable sprint packages.
+            <span className="text-white">OnSafe</span> is a trust-centric collaboration platform connecting early-stage founders with verified security experts — reducing launch risk through affordable, structured sprint packages and built-in legal safeguards.
           </p>
 
           <div className="flex flex-wrap gap-6 pt-4">
             <a href="/auth" className="bg-[#d1b3ff] text-black font-mono font-black px-10 py-4 rounded-xl tracking-widest text-xs hover:bg-[#e1ccff] transition-all active:scale-95 shadow-[0_0_30px_rgba(209,179,255,0.4)] uppercase inline-block">
-              SECURE YOUR MVP
+              SECURE MY MVP
             </a>
-            <a href="/sprints" className="bg-transparent border border-[#00f5ff]/40 text-[#00f5ff] font-mono font-bold px-10 py-4 rounded-xl tracking-widest text-xs hover:bg-[#00f5ff]/10 hover:border-[#00f5ff] transition-all active:scale-95 uppercase inline-block">
-              ACCESS MARKETPLACE
-            </a>
+            <div className="flex flex-col justify-center">
+              <a href="/sprints" className="bg-transparent border border-[#00f5ff]/40 text-[#00f5ff] font-mono font-bold px-10 py-4 rounded-xl tracking-widest text-xs hover:bg-[#00f5ff]/10 hover:border-[#00f5ff] transition-all active:scale-95 uppercase inline-block">
+                VIEW PRICING &amp; PACKAGES
+              </a>
+              <span className="font-mono text-[9px] text-white/30 tracking-widest mt-1.5 pl-1 uppercase">
+                Transparent, tiered pricing — built for startup budgets
+              </span>
+            </div>
           </div>
 
           {/* Core Pillars */}
           <div className="pt-8 grid grid-cols-1 sm:grid-cols-3 gap-6 text-left border-t border-white/5 mt-8">
              <div className="space-y-2 border-l-2 border-[#00f5ff] pl-4">
                  <h2 className="text-[#00f5ff] font-mono text-xs tracking-widest uppercase font-bold">Affordable</h2>
-                 <p className="text-white/60 text-xs font-sans leading-relaxed">Structured testing packages that work within startup budgets.</p>
+                 <p className="text-white/60 text-xs font-sans leading-relaxed">Pre-defined security packages with transparent, tiered pricing that fit within startup budgets — no hidden fees.</p>
              </div>
              <div className="space-y-2 border-l-2 border-[#d1b3ff] pl-4">
                  <h2 className="text-[#d1b3ff] font-mono text-xs tracking-widest uppercase font-bold">Trusted</h2>
-                 <p className="text-white/60 text-xs font-sans leading-relaxed">Verified expert onboarding and built-in legal frameworks like NDAs.</p>
+                 <p className="text-white/60 text-xs font-sans leading-relaxed">Every expert is verified through rigorous background checks and bound by integrated NDAs before accessing your codebase.</p>
              </div>
              <div className="space-y-2 border-l-2 border-[#39ff14] pl-4">
                  <h2 className="text-[#39ff14] font-mono text-xs tracking-widest uppercase font-bold">Structured</h2>
-                 <p className="text-white/60 text-xs font-sans leading-relaxed">Guided remediation workflows rather than just automated scan results.</p>
+                 <p className="text-white/60 text-xs font-sans leading-relaxed">Step-by-step fix guides and guided remediation — experts don't just find bugs, they help your team resolve them.</p>
              </div>
           </div>
         </div>

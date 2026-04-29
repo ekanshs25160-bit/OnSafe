@@ -11,7 +11,7 @@ const TrustBanner = () => {
         },
         {
           id: "002",
-          name: "SAHIL D.",
+          name: "SAHIL LUND.",
           role: "PEN_TEST LEAD",
           specialty: "#RED_TEAM",
           image: "https://api.dicebear.com/7.x/bottts/svg?seed=Sahil&backgroundColor=0b111a",

@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import ConsultationModal from "../components/ui/ConsultationModal";
 
 const ExpertDirectory = () => {
     const filters = ["ALL", "API_SECURITY", "AUTH_AUDITS", "CLOUD_CONFIG", "PEN_TESTING"];
     const [activeFilter, setActiveFilter] = useState("ALL");
+    const [selectedOperative, setSelectedOperative] = useState(null);
 
     const operatives = [
       {
@@ -63,20 +65,20 @@ const ExpertDirectory = () => {
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00f5ff]/5 blur-[120px] rounded-full pointer-events-none"></div>
 
                 {/* Status Feed */}
-                <div className="flex items-center gap-4 bg-black/50 border border-white/5 py-2 px-6 rounded-lg mb-12 w-max mx-auto shadow-[0_0_20px_rgba(0,245,255,0.05)]">
+                {/* <div className="flex items-center gap-4 bg-black/50 border border-white/5 py-2 px-6 rounded-lg mb-12 w-max mx-auto shadow-[0_0_20px_rgba(0,245,255,0.05)]">
                     <span className="w-2 h-2 bg-[#39ff14] rounded-full animate-pulse"></span>
                     <span className="font-mono text-[10px] text-white/60 tracking-[0.2em] uppercase">EXPERTS_ONLINE: <span className="text-[#00f5ff]">12</span></span>
                     <span className="text-white/20 mx-2">|</span>
                     <span className="font-mono text-[10px] text-white/60 tracking-[0.2em] uppercase">VERIFIED_NODES: <span className="text-[#39ff14]">ACTIVE</span></span>
-                </div>
+                </div> */}
 
-                {/* Header Section */}
                 <div className="text-center mb-16 relative z-10">
+                    <p className="font-mono text-[10px] text-[#00f5ff] tracking-[0.4em] uppercase mb-3">// EXPERT DIRECTORY</p>
                     <h1 className="text-5xl md:text-7xl font-black font-space uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60 mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                        OPERATIVE<span className="text-[#d1b3ff]">_DIRECTORY_V1.0</span>
+                        <span className="text-[#d1b3ff]">Verified Security Experts</span>
                     </h1>
                     <p className="text-white/60 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed">
-                        Access a vetted network of independent cybersecurity practitioners specialized in securing early-stage MVPs.
+                        Finding a trustworthy security professional shouldn't feel like a gamble. Every expert on OnSafe is identity-verified, certified, and bound by integrated NDAs — so you can collaborate with complete confidence before your public launch.
                     </p>
                 </div>
 
@@ -106,7 +108,7 @@ const ExpertDirectory = () => {
                 {/* Expert Card Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10">
                     {operatives.map(op => (
-                        <div key={op.id} className="group bg-black/40 backdrop-blur-xl border border-white/5 rounded-2xl p-6 hover:border-[#00f5ff]/50 hover:shadow-[0_0_30px_rgba(0,245,255,0.15)] transition-all duration-500 relative overflow-hidden">
+                        <div key={op.id} className="group bg-black/40 backdrop-blur-xl border border-white/5 rounded-2xl p-6 pt-12 pb-8 hover:border-[#00f5ff]/50 hover:shadow-[0_0_30px_rgba(0,245,255,0.15)] transition-all duration-500 relative overflow-hidden">
                             {/* Verification Badge */}
                             <div className="absolute top-6 right-6 flex items-center gap-1.5 bg-[#39ff14]/10 border border-[#39ff14]/20 px-2.5 py-1 rounded">
                                 <span className="w-1.5 h-1.5 rounded-full bg-[#39ff14] animate-pulse"></span>
@@ -150,7 +152,10 @@ const ExpertDirectory = () => {
                                 <a href="/dashboard" className="flex-1 text-center bg-transparent border border-[#00f5ff]/40 text-[#00f5ff] font-mono text-[10px] font-bold tracking-[0.2em] py-3 rounded-lg hover:bg-[#00f5ff]/10 hover:border-[#00f5ff] transition-all uppercase whitespace-nowrap">
                                     ACTIVE REPORTS
                                 </a>
-                                <button className="flex-1 bg-white/5 border border-white/10 text-white font-mono text-[10px] font-bold tracking-[0.2em] py-3 rounded-lg hover:bg-[#d1b3ff] hover:text-black hover:border-[#d1b3ff] transition-all uppercase whitespace-nowrap">
+                                <button
+                                    onClick={() => setSelectedOperative(op)}
+                                    className="flex-1 bg-white/5 border border-white/10 text-white font-mono text-[10px] font-bold tracking-[0.2em] py-3 rounded-lg hover:bg-[#d1b3ff] hover:text-black hover:border-[#d1b3ff] transition-all uppercase whitespace-nowrap"
+                                >
                                     CONSULT
                                 </button>
                             </div>
@@ -169,6 +174,13 @@ const ExpertDirectory = () => {
                 </div>
             </main>
             <Footer />
+
+            {selectedOperative && (
+                <ConsultationModal
+                    operative={selectedOperative}
+                    onClose={() => setSelectedOperative(null)}
+                />
+            )}
             
             <style>{`
                .scanline {

@@ -35,25 +35,25 @@ const SecuritySprintMarketplace = () => {
     {
       step: "01",
       title: "Secure Onboarding & NDA",
-      desc: "Sign automated, binding NDAs instantly. Protect your MVP before code access.",
+      desc: "Sign automated, legally-binding NDAs in seconds. Your code and product ideas stay protected before any expert gains access.",
       icon: "gavel"
     },
     {
       step: "02",
-      title: "Verified Operative Matching",
-      desc: "Connect precisely with vetted experts specialized in your tech stack.",
+      title: "Verified Expert Matching",
+      desc: "Get matched with a verified security expert who specialises in your exact tech stack — no guesswork, no cold outreach.",
       icon: "verified_user"
     },
     {
       step: "03",
-      title: "Standardized Vulnerability Reporting",
-      desc: "Obtain clean, actionable terminal-style feedback. No filler.",
+      title: "Clear Vulnerability Report",
+      desc: "Receive a plain-language security report. Every issue is ranked by severity with clear explanations your team can understand.",
       icon: "bug_report"
     },
     {
       step: "04",
-      title: "Guided Remediation & Fixes",
-      desc: "Direct support from operatives to patch vulnerabilities and close holes.",
+      title: "Step-by-Step Fix Guide",
+      desc: "Your expert doesn't disappear after reporting. They work with you directly to patch vulnerabilities — a joint engagement until your MVP is secure.",
       icon: "build_circle"
     }
   ];
@@ -73,10 +73,10 @@ const SecuritySprintMarketplace = () => {
             {/* Header Node */}
             <div className="mb-12">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-black font-space uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-[#00f5ff] mb-4 drop-shadow-[0_0_15px_rgba(0,245,255,0.2)]">
-                SECURITY_SPRINT_<br/>MARKETPLACE_V1.0
+                Security Sprints<br/>Marketplace
               </h1>
-              <p className="text-white/60 text-lg md:text-xl max-w-2xl leading-relaxed font-mono">
-                Economic, structured, and trusted security assessments designed for MVP launch constraints.
+              <p className="text-white/60 text-lg md:text-xl max-w-2xl leading-relaxed font-inter">
+                Affordable, pre-defined security packages built for early-stage founders — because 61% of startups skip security testing due to budget constraints. We fix that.
               </p>
               
               {/* Trust Banner UI */}
@@ -105,7 +105,7 @@ const SecuritySprintMarketplace = () => {
                    <div key={idx} className={`relative flex flex-col bg-black/40 backdrop-blur-xl border ${sprint.featured ? 'border-[#00f5ff]/40 shadow-[0_0_20px_rgba(0,245,255,0.1)]' : 'border-white/5'} rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(0,245,255,0.2)] transition-all duration-500 overflow-hidden group hover:border-[#00f5ff]/50`}>
                       {sprint.featured && (
                          <div className="absolute top-4 right-4 bg-[#00f5ff] text-black font-space font-bold text-[9px] px-2 py-1 rounded uppercase tracking-widest">
-                            RECOMMENDED_NODE
+                            MOST POPULAR
                          </div>
                       )}
                       
@@ -148,7 +148,7 @@ const SecuritySprintMarketplace = () => {
             <div>
                <h2 className="font-mono text-[12px] text-white/50 tracking-[0.3em] uppercase mb-8 flex items-center gap-3">
                   <span className="w-8 h-px bg-[#d1b3ff]/50"></span>
-                  WORKFLOW_PROTOCOL
+                  HOW IT WORKS
                </h2>
                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                  {workflowSteps.map((step, idx) => (

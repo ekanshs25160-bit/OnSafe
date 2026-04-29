@@ -18,16 +18,6 @@ const Navbar = () => {
             <div className="w-2.5 h-2.5 rounded-full bg-tertiary shadow-[0_0_12px_rgba(57,255,20,0.8)] animate-pulse"></div>
             <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-tertiary font-black">ONSAFE_CORE_V1.0</span>
           </div>
-
-          <div className="h-4 w-px bg-white/10 mx-2 hidden lg:block"></div>
-
-          <div className="hidden lg:flex items-center gap-2 font-mono text-[9px] text-white/30 uppercase tracking-[0.2em]">
-            <span className="text-white/40">UPLINK:</span>
-            <span className="text-white/70">ACTIVE</span>
-            <span className="text-white/20 mx-1">//</span>
-            <span className="text-white/40">REGION:</span>
-            <span className="text-white/70">NO-SEC-01</span>
-          </div>
         </div>
         
         {/* Right Side: Navigation & Actions */}

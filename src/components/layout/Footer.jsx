@@ -2,7 +2,7 @@ import React from 'react';
 
 const Footer = () => {
     return (
-      <footer className="footer bg-bg-base border-t border-white/5 py-24 px-[10%] relative overflow-hidden">
+      <footer className="footer bg-bg-base border-t border-white/5 p-24 px-[10%] relative overflow-hidden">
         
         {/* Main Grid Layout */}
         <div className="flex flex-col lg:flex-row justify-between items-start gap-12 relative z-10">

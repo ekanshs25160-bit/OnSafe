@@ -32,7 +32,7 @@ const AuthenticationPage = () => {
 
       <Navbar />
 
-      <main className="px-[5%] lg:px-[20%] relative z-10 flex flex-col items-center">
+      <main className="px-[5%] lg:px-[20%] relative z-10 flex flex-col mb-20 items-center">
         
         {/* Header HUD */}
         <div className="text-center mb-10 w-full max-w-2xl">

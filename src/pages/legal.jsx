@@ -43,7 +43,7 @@ const LegalHub = () => {
     };
 
     return (
-        <div className="bg-[#0b111a] min-h-screen text-[#e6edf3] font-inter selection:bg-[#00f5ff] selection:text-black pt-32 pb-24 relative overflow-hidden">
+        <div className="bg-[#0b111a] min-h-screen text-[#e6edf3] font-inter selection:bg-[#00f5ff] selection:text-black pt-32 relative overflow-hidden">
             {/* Background Effects */}
             <div className="absolute inset-0 scanline opacity-5 pointer-events-none z-0"></div>
             <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#d1b3ff]/5 blur-[120px] rounded-full pointer-events-none"></div>
@@ -51,7 +51,7 @@ const LegalHub = () => {
 
             <Navbar />
 
-            <main className="container mx-auto px-6 lg:px-16 relative z-10 max-w-7xl">
+            <main className="container mx-auto px-6 lg:px-16 relative z-10 mb-20 max-w-7xl">
                 <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
                     <div className="flex items-center gap-4 mb-10 border-b border-white/10 pb-8">
                         <div className="p-4 bg-black/40 border border-[#d1b3ff]/30 rounded-xl shadow-[0_0_20px_rgba(209,179,255,0.15)]">
@@ -63,11 +63,26 @@ const LegalHub = () => {
                                 <span className="font-mono text-[10px] text-[#39ff14] tracking-[0.3em] uppercase">SYSTEM-LEVEL ANCHOR</span>
                             </div>
                             <h1 className="text-4xl md:text-5xl font-black font-space uppercase text-white tracking-tight drop-shadow-[0_0_15px_rgba(255,255,255,0.1)]">
-                                Legal Protocol Hub
+                                Legal Safeguards Hub
                             </h1>
                             <p className="font-mono text-[11px] text-white/50 tracking-widest uppercase mt-3">
-                                Integrated Safeguards // Data Misuse Prevention
+                                Built-in Protection // Zero Data Misuse
                             </p>
+                            <ul className="mt-5 space-y-2">
+                                <li className="flex items-start gap-2 font-mono text-[11px] text-white/60">
+                                    <span className="material-symbols-outlined text-[#00f5ff] text-[14px] mt-0.5">check_circle</span>
+                                    <span><span className="text-white font-bold">Integrated NDA Functionality</span> — Legally binding non-disclosure agreements execute automatically before any expert accesses your codebase or product architecture.</span>
+                                </li>
+                                <li className="flex items-start gap-2 font-mono text-[11px] text-white/60">
+                                    <span className="material-symbols-outlined text-[#d1b3ff] text-[14px] mt-0.5">check_circle</span>
+                                    <span><span className="text-white font-bold">Built-in Privacy Contracts</span> — Every engagement is governed by a platform-enforced privacy agreement designed to prevent unauthorised data sharing or commercial misuse.</span>
+                                </li>
+                                <li className="flex items-start gap-2 font-mono text-[11px] text-white/60">
+                                    <span className="material-symbols-outlined text-[#39ff14] text-[14px] mt-0.5">check_circle</span>
+                                    <span><span className="text-white font-bold">System-Level Data Safeguards</span> — These are not optional add-ons. Data protection is a core platform feature: all vulnerability data is encrypted, isolated, and auto-purged post-remediation.
+                                    </span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </motion.div>

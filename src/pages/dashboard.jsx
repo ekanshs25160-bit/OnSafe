@@ -46,10 +46,10 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="bg-[#0b111a] min-h-screen text-[#e6edf3] font-inter selection:bg-[#00f5ff] selection:text-black pt-28 pb-20">
+    <div className="bg-[#0b111a] min-h-screen text-[#e6edf3] font-inter selection:bg-[#00f5ff] selection:text-black pt-28">
       <Navbar />
 
-      <main className="px-[5%] lg:px-[10%] relative z-10">
+      <main className="px-[5%] lg:px-[10%] relative z-10 mb-20">
         
         {/* Header Section */}
         <div className="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-white/10 pb-8">
@@ -59,7 +59,7 @@ const Dashboard = () => {
                     <h2 className="font-mono text-[10px] text-[#39ff14] tracking-[0.3em] uppercase">SYSTEM_STATUS: MONITORING</h2>
                 </div>
                 <h1 className="text-4xl lg:text-5xl font-black font-space uppercase text-white drop-shadow-[0_0_15px_rgba(255,204,0,0.1)]">
-                    VULNERABILITY_HUB
+                    SECURITY HEALTH HUB
                 </h1>
             </div>
             
@@ -88,7 +88,7 @@ const Dashboard = () => {
                 <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 relative overflow-hidden group">
                     <div className="absolute -right-10 -top-10 w-40 h-40 bg-[#ff4d4d]/10 rounded-full blur-3xl pointer-events-none group-hover:bg-[#ff4d4d]/20 transition-all"></div>
                     
-                    <h3 className="font-mono text-[11px] font-bold tracking-[0.2em] text-white/60 mb-6 uppercase">Global Risk Score</h3>
+                    <h3 className="font-mono text-[11px] font-bold tracking-[0.2em] text-white/60 mb-6 uppercase">Security Health Score</h3>
                     
                     <div className="flex items-center gap-6">
                         <div className="relative w-32 h-32 flex items-center justify-center">
@@ -115,7 +115,7 @@ const Dashboard = () => {
                         
                         <div className="space-y-4">
                             <div>
-                                <div className="font-mono text-[9px] text-[#ff4d4d] tracking-widest uppercase mb-1">CRITICAL THREATS</div>
+                                <div className="font-mono text-[9px] text-[#ff4d4d] tracking-widest uppercase mb-1">CRITICAL ISSUES</div>
                                 <div className="font-space font-bold text-xl text-white">01</div>
                             </div>
                             <div>
@@ -128,11 +128,11 @@ const Dashboard = () => {
 
                 {/* Security Sprint Progress */}
                 <div className="bg-white/5 border border-white/5 rounded-2xl p-6 relative overflow-hidden">
-                    <h3 className="font-mono text-[11px] font-bold tracking-[0.2em] text-white/60 mb-4 uppercase">Sprint Progress</h3>
+                    <h3 className="font-mono text-[11px] font-bold tracking-[0.2em] text-white/60 mb-4 uppercase">Fix Progress</h3>
                     
                     <div className="mb-2 flex justify-between items-center text-[10px] font-mono font-bold">
                         <span className="text-[#00f5ff] uppercase">API Security Sprint</span>
-                        <span className="text-white">75% COMPLETE</span>
+                        <span className="text-white">75% FIXED</span>
                     </div>
                     
                     <div className="w-full bg-black/50 rounded-full h-2 overflow-hidden border border-white/10">
@@ -142,7 +142,7 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    <p className="font-mono text-[9px] text-white/40 tracking-widest uppercase mt-4">Running tests on remaining endpoints</p>
+                    <p className="font-mono text-[9px] text-white/40 tracking-widest uppercase mt-4">Your expert is still working on remaining endpoints</p>
                 </div>
             </div>
 
@@ -151,7 +151,7 @@ const Dashboard = () => {
                 <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-8 h-full flex flex-col">
                     <h3 className="font-mono text-[11px] font-bold tracking-[0.2em] text-white/60 mb-6 uppercase flex items-center gap-2">
                         <span className="material-symbols-outlined text-[14px]">table_rows</span>
-                        ACTIVE_SCANS & LOGS
+                        STEP-BY-STEP FIXES &amp; ACTIVE SCANS
                     </h3>
 
                     <div className="flex-1 overflow-auto no-scrollbar">
