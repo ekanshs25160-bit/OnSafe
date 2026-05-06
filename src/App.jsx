@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import Home from './pages/home';
-import Team from './pages/team';
-import SecuritySprintMarketplace from './pages/projects';
-import Dashboard from './pages/dashboard';
+import ExpertDirectory from './pages/experts';
+import SecuritySprintMarketplace from './pages/marketplace';
+import Dashboard from './pages/reports';
 import AuthenticationPage from './pages/auth';
 import LegalHub from './pages/legal';
 import './styles/globals.css';
@@ -40,7 +40,7 @@ function App() {
 
   return (
     <div className="App overflow-x-hidden min-h-screen bg-[#0b111a]">
-      {path === '/experts' ? <Team /> : 
+      {path === '/experts' ? <ExpertDirectory /> : 
        path === '/sprints' ? <SecuritySprintMarketplace /> : 
        path === '/dashboard' ? <Dashboard /> : 
        path === '/auth' ? <AuthenticationPage /> : 

@@ -4,46 +4,35 @@ import Footer from "../components/layout/Footer";
 
 const Dashboard = () => {
   const [selectedVuln, setSelectedVuln] = useState(null);
+  const [vulnerabilities, setVulnerabilities] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const vulnerabilities = [
-    {
-      id: "CVE-2026-X190",
-      severity: "CRITICAL",
-      type: "Unauthenticated API Access",
-      status: "OPEN",
-      operative: "LAKSHAY S.",
-      remediation: [
-        "Implement strict JWT validation on /api/v2/core endpoint.",
-        "Rotate compromised secret keys within the AWS Secret Manager.",
-        "Deploy a rate-limiting middleware to throttle excess requests."
-      ],
-      color: "#ff4d4d"
-    },
-    {
-      id: "AWS-IAM-001",
-      severity: "HIGH",
-      type: "Over-permissive S3 Bucket Policy",
-      status: "IN-PROGRESS",
-      operative: "SAHIL D.",
-      remediation: [
-        "Restrict bucket access to specific VPC endpoints.",
-        "Remove s3:GetObject permission for anonymous users."
-      ],
-      color: "#ffcc00"
-    },
-    {
-      id: "AUTH-JWT-042",
-      severity: "MEDIUM",
-      type: "Missing Refresh Token Expiration",
-      status: "FIXED",
-      operative: "EKANSH S.",
-      remediation: [
-        "Enforce a strict 7-day expiration limit on all refresh tokens.",
-        "Implement token revocation on logout."
-      ],
-      color: "#39ff14"
+  React.useEffect(() => {
+    fetch("http://localhost:3000/api/dashboard/vulnerabilities")
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.success) {
+          setVulnerabilities(result.data);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching vulnerabilities:", err);
+        setLoading(false);
+      });
+  }, []);
+
+  const criticalCount = vulnerabilities.filter(v => v.severity === "Critical").length;
+  const warningCount = vulnerabilities.filter(v => v.severity === "High" || v.severity === "Medium").length;
+
+  const getSeverityColor = (severity) => {
+    switch (severity.toUpperCase()) {
+      case "CRITICAL": return "#ff4d4d";
+      case "HIGH": return "#ffcc00";
+      case "MEDIUM": return "#39ff14";
+      default: return "#e6edf3";
     }
-  ];
+  };
 
   return (
     <div className="bg-[#0b111a] min-h-screen text-[#e6edf3] font-inter selection:bg-[#00f5ff] selection:text-black pt-28">
@@ -116,11 +105,11 @@ const Dashboard = () => {
                         <div className="space-y-4">
                             <div>
                                 <div className="font-mono text-[9px] text-[#ff4d4d] tracking-widest uppercase mb-1">CRITICAL ISSUES</div>
-                                <div className="font-space font-bold text-xl text-white">01</div>
+                                <div className="font-space font-bold text-xl text-white">{String(criticalCount).padStart(2, '0')}</div>
                             </div>
                             <div>
                                 <div className="font-mono text-[9px] text-[#ffcc00] tracking-widest uppercase mb-1">WARNINGS</div>
-                                <div className="font-space font-bold text-xl text-white">04</div>
+                                <div className="font-space font-bold text-xl text-white">{String(warningCount).padStart(2, '0')}</div>
                             </div>
                         </div>
                     </div>
@@ -165,24 +154,35 @@ const Dashboard = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {vulnerabilities.map((vuln, i) => (
-                                    <tr 
-                                      key={vuln.id} 
-                                      onClick={() => setSelectedVuln(vuln)}
-                                      className={`border-b border-white/5 hover:bg-white/5 cursor-pointer transition-colors group ${selectedVuln?.id === vuln.id ? 'bg-white/5' : ''}`}
-                                    >
-                                        <td className="py-4 pr-4">
-                                            <span className="font-mono text-[9px] font-bold tracking-[0.2em] px-2 py-1 rounded bg-black/40 border" style={{color: vuln.color, borderColor: `${vuln.color}40`}}>
-                                                {vuln.severity}
-                                            </span>
-                                        </td>
-                                        <td className="py-4 px-4 font-mono text-[11px] text-white/80 group-hover:text-white transition-colors">{vuln.id}</td>
-                                        <td className="py-4 px-4">
-                                            <span className="font-mono text-[9px] tracking-widest uppercase text-white/60">{vuln.status}</span>
-                                        </td>
-                                        <td className="py-4 pl-4 text-right font-mono text-[10px] text-[#d1b3ff] tracking-widest uppercase">{vuln.operative}</td>
-                                    </tr>
-                                ))}
+                                {loading ? (
+                                    Array(5).fill(0).map((_, i) => (
+                                        <tr key={i} className="animate-pulse">
+                                            <td className="py-4"><div className="h-4 bg-white/5 rounded w-20"></div></td>
+                                            <td className="py-4"><div className="h-4 bg-white/5 rounded w-24"></div></td>
+                                            <td className="py-4"><div className="h-4 bg-white/5 rounded w-20"></div></td>
+                                            <td className="py-4"><div className="h-4 bg-white/5 rounded w-24"></div></td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    vulnerabilities.map((vuln) => (
+                                        <tr 
+                                          key={vuln.vuln_id} 
+                                          onClick={() => setSelectedVuln(vuln)}
+                                          className={`border-b border-white/5 hover:bg-white/5 cursor-pointer transition-colors group ${selectedVuln?.vuln_id === vuln.vuln_id ? 'bg-white/5' : ''}`}
+                                        >
+                                            <td className="py-4 pr-4">
+                                                <span className="font-mono text-[9px] font-bold tracking-[0.2em] px-2 py-1 rounded bg-black/40 border" style={{color: getSeverityColor(vuln.severity), borderColor: `${getSeverityColor(vuln.severity)}40`}}>
+                                                    {vuln.severity.toUpperCase()}
+                                                </span>
+                                            </td>
+                                            <td className="py-4 px-4 font-mono text-[11px] text-white/80 group-hover:text-white transition-colors">{vuln.vuln_id}</td>
+                                            <td className="py-4 px-4">
+                                                <span className="font-mono text-[9px] tracking-widest uppercase text-white/60">{vuln.status}</span>
+                                            </td>
+                                            <td className="py-4 pl-4 text-right font-mono text-[10px] text-[#d1b3ff] tracking-widest uppercase">SYSTEM_NODE</td>
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -210,26 +210,28 @@ const Dashboard = () => {
                     <h3 className="font-mono text-[11px] font-bold tracking-[0.2em] text-[#ffcc00] uppercase">GUIDED REMEDIATION PROTOCOL</h3>
                 </div>
                 
-                <h2 className="font-space font-bold text-3xl text-white mb-2 uppercase">{selectedVuln.type}</h2>
-                <div className="font-mono text-[11px] text-white/40 tracking-widest mb-8">TARGET_ID: {selectedVuln.id} / ORIGIN: STATIC_ANALYSIS</div>
+                <h2 className="font-space font-bold text-3xl text-white mb-2 uppercase">{selectedVuln.title}</h2>
+                <div className="font-mono text-[11px] text-white/40 tracking-widest mb-8">TARGET_ID: {selectedVuln.vuln_id} / ORIGIN: {selectedVuln.category.toUpperCase()}</div>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <div className="lg:col-span-2 space-y-4">
                         <div className="font-mono text-[10px] text-white/50 tracking-widest uppercase mb-4 shadow-sm">RECOMMENDED_STEPS:</div>
-                        {selectedVuln.remediation.map((step, idx) => (
-                            <div key={idx} className="flex items-start gap-4 bg-white/5 border border-white/5 p-4 rounded-xl">
-                                <div className="font-space font-bold text-white/20 text-xl leading-none">{idx + 1}</div>
-                                <p className="font-mono text-[11px] text-white/70 leading-relaxed">{step}</p>
-                            </div>
-                        ))}
+                        <div className="flex items-start gap-4 bg-white/5 border border-white/5 p-4 rounded-xl">
+                            <div className="font-space font-bold text-white/20 text-xl leading-none">1</div>
+                            <p className="font-mono text-[11px] text-white/70 leading-relaxed">{selectedVuln.remediation_guide}</p>
+                        </div>
+                        <div className="flex items-start gap-4 bg-white/5 border border-white/5 p-4 rounded-xl opacity-50">
+                            <div className="font-space font-bold text-white/20 text-xl leading-none">2</div>
+                            <p className="font-mono text-[11px] text-white/70 leading-relaxed">Follow OWASP guidance: {selectedVuln.references.join(", ")}</p>
+                        </div>
                     </div>
                     
                     <div className="bg-black/60 border border-white/10 rounded-xl p-6 self-start">
-                        <div className="font-mono text-[10px] text-[#d1b3ff] tracking-widest uppercase mb-4">ASSIGNED_PRACTITIONER</div>
+                        <div className="font-mono text-[10px] text-[#d1b3ff] tracking-widest uppercase mb-4">PRACTITIONER_NODE</div>
                         <div className="flex items-center gap-3 mb-6">
-                            <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${selectedVuln.operative.split(" ")[0]}&backgroundColor=0b111a`} className="w-12 h-12 rounded bg-white/5 border border-white/10" alt="Operative" />
+                            <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=SYSTEM&backgroundColor=0b111a`} className="w-12 h-12 rounded bg-white/5 border border-white/10" alt="Operative" />
                             <div>
-                                <div className="font-space font-bold text-white uppercase text-sm">{selectedVuln.operative}</div>
+                                <div className="font-space font-bold text-white uppercase text-sm">SEC_AUTO_GEN</div>
                                 <div className="font-mono text-[9px] text-[#39ff14] tracking-widest uppercase flex items-center gap-1">
                                     <span className="w-1.5 h-1.5 bg-[#39ff14] rounded-full"></span> VERIFIED
                                 </div>

@@ -3,33 +3,23 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
 const SecuritySprintMarketplace = () => {
-  const sprintPackages = [
-    {
-      tier: "TIER_01",
-      name: "API Security Sprint",
-      price: "₹1,200",
-      focus: ["Endpoint Scans", "Data Exposure", "Rate Limiting Checks"],
-      timeline: "5 Days",
-      color: "#39ff14"
-    },
-    {
-      tier: "TIER_02",
-      name: "Auth Protocol Audit",
-      price: "₹2,500",
-      focus: ["OAuth/JWT Validation", "Session Hijacking Prev.", "MFA Enforcement"],
-      timeline: "10 Days",
-      color: "#00f5ff",
-      featured: true
-    },
-    {
-      tier: "TIER_03",
-      name: "Full Startup MVP Scan",
-      price: "₹4,800",
-      focus: ["Comprehensive Code Review", "Cloud Arch Audit", "Penetration Testing"],
-      timeline: "21 Days",
-      color: "#d1b3ff"
-    }
-  ];
+  const [sprintPackages, setSprintPackages] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    fetch("http://localhost:3000/api/sprints")
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.success) {
+          setSprintPackages(result.data);
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.error("Error fetching sprints:", err);
+        setLoading(false);
+      });
+  }, []);
 
   const workflowSteps = [
     {
@@ -72,9 +62,9 @@ const SecuritySprintMarketplace = () => {
           <div className="flex-1">
             {/* Header Node */}
             <div className="mb-12">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-black font-space uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-[#00f5ff] mb-4 drop-shadow-[0_0_15px_rgba(0,245,255,0.2)]">
-                Security Sprints<br/>Marketplace
-              </h1>
+              <h1 className="text-5xl md:text-7xl font-black font-space uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60 mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                        <span className="text-[#d1b3ff]">Security Marketplace</span>
+                    </h1>
               <p className="text-white/60 text-lg md:text-xl max-w-2xl leading-relaxed font-inter">
                 Affordable, pre-defined security packages built for early-stage founders — because 61% of startups skip security testing due to budget constraints. We fix that.
               </p>
@@ -100,48 +90,54 @@ const SecuritySprintMarketplace = () => {
                   AVAILABLE_SPRINT_PACKAGES
                </h2>
                
-               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                 {sprintPackages.map((sprint, idx) => (
-                   <div key={idx} className={`relative flex flex-col bg-black/40 backdrop-blur-xl border ${sprint.featured ? 'border-[#00f5ff]/40 shadow-[0_0_20px_rgba(0,245,255,0.1)]' : 'border-white/5'} rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(0,245,255,0.2)] transition-all duration-500 overflow-hidden group hover:border-[#00f5ff]/50`}>
-                      {sprint.featured && (
-                         <div className="absolute top-4 right-4 bg-[#00f5ff] text-black font-space font-bold text-[9px] px-2 py-1 rounded uppercase tracking-widest">
-                            MOST POPULAR
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                  {loading ? (
+                    Array(3).fill(0).map((_, i) => (
+                      <div key={i} className="h-96 bg-white/5 rounded-2xl animate-pulse"></div>
+                    ))
+                  ) : (
+                    sprintPackages.map((sprint, idx) => (
+                      <div key={sprint.id || idx} className={`relative flex flex-col h-full bg-black/40 backdrop-blur-xl border ${sprint.popular ? 'border-[#00f5ff]/40 shadow-[0_0_20px_rgba(0,245,255,0.1)]' : 'border-white/5'} rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(0,245,255,0.2)] transition-all duration-500 overflow-hidden group hover:border-[#00f5ff]/50`}>
+                         {sprint.popular && (
+                            <div className="absolute top-4 right-4 bg-[#00f5ff] text-black font-space font-bold text-[9px] px-2 py-1 rounded uppercase tracking-widest">
+                               MOST POPULAR
+                            </div>
+                         )}
+                         
+                         <div className="font-mono text-[10px] tracking-widest uppercase mb-4" style={{color: sprint.badge_color || '#00f5ff'}}>
+                           // {sprint.id ? sprint.id.split('-')[1] : `TIER_0${idx + 1}`}
                          </div>
-                      )}
-                      
-                      <div className="font-mono text-[10px] tracking-widest uppercase mb-4" style={{color: sprint.color}}>
-                        // {sprint.tier}
+                         <h3 className="font-space font-bold text-2xl text-white uppercase mb-2">
+                           {sprint.tier_name}
+                         </h3>
+                         <div className="font-mono text-3xl font-bold text-white mb-8 border-b border-white/5 pb-6">
+                           {sprint.price_display || `₹${(sprint.price || 0).toLocaleString()}`}
+                         </div>
+                         
+                         <div className="flex-1">
+                            <h4 className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase mb-4">Core Focus_</h4>
+                            <ul className="space-y-3 mb-8">
+                               {(sprint.features || sprint.focus || []).map((f, i) => (
+                                 <li key={i} className="flex items-start gap-2 font-mono text-[11px] text-white/70">
+                                    <span className="material-symbols-outlined text-[14px]" style={{color: sprint.badge_color || '#00f5ff'}}>arrow_right</span>
+                                    {f}
+                                 </li>
+                               ))}
+                            </ul>
+                         </div>
+                         
+                         <div className="flex items-center gap-2 font-mono text-[10px] text-white/50 mb-6 bg-white/5 w-max px-3 py-1.5 rounded border border-white/5">
+                            <span className="material-symbols-outlined text-[14px]">schedule</span> TIMELINE: {sprint.estimated_duration || sprint.timeline}
+                         </div>
+   
+                         <a href="/auth" className="w-full py-4 rounded-xl border border-white/10 font-mono text-[11px] font-bold tracking-[0.2em] text-white hover:bg-[#00f5ff] hover:text-black hover:border-[#00f5ff] transition-all duration-300 uppercase flex justify-between items-center px-6 relative overflow-hidden group/btn group-hover:border-[#00f5ff]/50">
+                             <span className="relative z-10"> SELECT_PACKAGE</span>
+                             <span className="material-symbols-outlined text-[16px] relative z-10 group-hover/btn:translate-x-1 transition-transform">chevron_right</span>
+                         </a>
                       </div>
-                      <h3 className="font-space font-bold text-2xl text-white uppercase mb-2">
-                        {sprint.name}
-                      </h3>
-                      <div className="font-mono text-3xl font-bold text-white mb-8 border-b border-white/5 pb-6">
-                        {sprint.price}
-                      </div>
-                      
-                      <div className="flex-1">
-                         <h4 className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase mb-4">Core Focus_</h4>
-                         <ul className="space-y-3 mb-8">
-                            {sprint.focus.map((f, i) => (
-                              <li key={i} className="flex items-start gap-2 font-mono text-[11px] text-white/70">
-                                 <span className="material-symbols-outlined text-[14px]" style={{color: sprint.color}}>arrow_right</span>
-                                 {f}
-                              </li>
-                            ))}
-                         </ul>
-                      </div>
-                      
-                      <div className="flex items-center gap-2 font-mono text-[10px] text-white/50 mb-6 bg-white/5 w-max px-3 py-1.5 rounded border border-white/5">
-                         <span className="material-symbols-outlined text-[14px]">schedule</span> TIMELINE: {sprint.timeline}
-                      </div>
-
-                      <a href="/auth" className="w-full py-4 rounded-xl border border-white/10 font-mono text-[11px] font-bold tracking-[0.2em] text-white hover:bg-[#00f5ff] hover:text-black hover:border-[#00f5ff] transition-all duration-300 uppercase flex justify-between items-center px-6 relative overflow-hidden group/btn group-hover:border-[#00f5ff]/50">
-                          <span className="relative z-10"> SELECT_PACKAGE</span>
-                          <span className="material-symbols-outlined text-[16px] relative z-10 group-hover/btn:translate-x-1 transition-transform">chevron_right</span>
-                      </a>
-                   </div>
-                 ))}
-               </div>
+                    ))
+                  )}
+                </div>
             </div>
 
             {/* Workflow Protocol Section */}

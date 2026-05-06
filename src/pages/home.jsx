@@ -2,12 +2,11 @@ import React from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import Hero from "../components/sections/Hero";
-import StatsSection from "../components/sections/Stats";
-import Sprints from "../components/sections/Sprints";
+import Marketplace from "../components/sections/Marketplace";
 import TrustArchitecture from "../components/sections/TrustArchitecture";
-import DashboardPreview from "../components/sections/DashboardPreview";
-import ProjectsSection from "../components/sections/Projects";
-import TeamSection from "../components/sections/Team";
+import ReportsPreview from "../components/sections/ReportsPreview";
+import ServicesSection from "../components/sections/Services";
+import ExpertsSection from "../components/sections/Experts";
 
 
 const Home = () => {
@@ -16,11 +15,10 @@ const Home = () => {
       <Navbar />
       <main>
         <Hero />
-        <StatsSection />
-        <Sprints />
+        <Marketplace />
         <TrustArchitecture />
-        <DashboardPreview />
-        <TeamSection />
+        <ReportsPreview />
+        <ExpertsSection />
       </main>
       <Footer />
     </div>

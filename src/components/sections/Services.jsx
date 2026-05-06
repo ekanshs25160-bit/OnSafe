@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "../ui/Card";
 
-const ProjectsSection = () => {
+const ServicesSection = () => {
   const projects = [
     {
       id: "SPRINT_01",
@@ -70,5 +70,5 @@ const ProjectsSection = () => {
   );
 };
 
-export default ProjectsSection;
+export default ServicesSection;
 

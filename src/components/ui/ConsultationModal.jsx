@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const PRICING = [
-  { label: "API Security Sprint", price: "₹1,200", tag: "FIXED_SCOPE" },
-  { label: "Auth Protocol Audit", price: "₹2,500", tag: "FIXED_SCOPE" },
-  { label: "Full MVP Scan", price: "₹4,800", tag: "CUSTOM_SCOPE" },
+  { label: "Essential Security Sprint", price: "₹5,000", tag: "FIXED_SCOPE" },
+  { label: "Advanced Security Audit", price: "₹50,000", tag: "FIXED_SCOPE" },
+  { label: "Full MVP Shield", price: "₹1,50,000", tag: "CUSTOM_SCOPE" },
 ];
 
 const ConsultationModal = ({ operative, onClose }) => {
@@ -46,42 +46,42 @@ const ConsultationModal = ({ operative, onClose }) => {
           exit={{ opacity: 0, scale: 0.94, y: 24 }}
           transition={{ type: "spring", stiffness: 260, damping: 28 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-2xl bg-[#0b111a] rounded-2xl border border-transparent overflow-hidden"
+          className="relative w-full max-w-2xl bg-[#0b111a] rounded-2xl border border-transparent flex flex-col max-h-[90vh] overflow-hidden"
           style={{
             background: "linear-gradient(#0b111a, #0b111a) padding-box, linear-gradient(135deg, #00f5ff55, #d1b3ff55) border-box",
             border: "1px solid transparent",
           }}
         >
-          {/* Cyan Laser Scan Line */}
-          <AnimatePresence>
-            {!scanDone && (
-              <motion.div
-                key="scan"
-                initial={{ top: 0, opacity: 1 }}
-                animate={{ top: "100%", opacity: 0.6 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 1.1, ease: "linear" }}
-                className="absolute left-0 w-full h-[2px] z-20 pointer-events-none"
-                style={{
-                  background: "linear-gradient(90deg, transparent, #00f5ff, transparent)",
-                  boxShadow: "0 0 16px 4px rgba(0,245,255,0.5)",
-                }}
-              />
-            )}
-          </AnimatePresence>
+          {/* Scrollable Content Container */}
+          <div className="flex-1 overflow-y-auto overflow-x-hidden relative">
+            {/* Cyan Laser Scan Line */}
+            <AnimatePresence>
+              {!scanDone && (
+                <motion.div
+                  key="scan"
+                  initial={{ top: 0, opacity: 1 }}
+                  animate={{ top: "100%", opacity: 0.6 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1.1, ease: "linear" }}
+                  className="absolute left-0 w-full h-[2px] z-20 pointer-events-none"
+                  style={{
+                    background: "linear-gradient(90deg, transparent, #00f5ff, transparent)",
+                    boxShadow: "0 0 16px 4px rgba(0,245,255,0.5)",
+                  }}
+                />
+              )}
+            </AnimatePresence>
 
-          {/* Gradient corner glow accents */}
-          <div className="pointer-events-none absolute -top-16 -left-16 w-48 h-48 bg-[#00f5ff]/10 blur-3xl rounded-full" />
-          <div className="pointer-events-none absolute -bottom-16 -right-16 w-48 h-48 bg-[#d1b3ff]/10 blur-3xl rounded-full" />
+            {/* Gradient corner glow accents */}
+            <div className="pointer-events-none absolute -top-16 -left-16 w-48 h-48 bg-[#00f5ff]/10 blur-3xl rounded-full" />
+            <div className="pointer-events-none absolute -bottom-16 -right-16 w-48 h-48 bg-[#d1b3ff]/10 blur-3xl rounded-full" />
 
-          <div className="relative z-10 p-8">
+            <div className="relative z-10 p-8">
 
             {/* ── Header bar ── */}
             <div className="flex items-start justify-between mb-8">
               <div>
-                <p className="font-mono text-[9px] text-[#00f5ff] tracking-[0.4em] uppercase mb-1">
-                  // CONSULTATION_NODE :: SECURE_CHANNEL
-                </p>
+                
                 <h2 className="font-space font-black text-2xl md:text-3xl text-white uppercase leading-tight">
                   {operative.name}
                 </h2>
@@ -111,8 +111,8 @@ const ConsultationModal = ({ operative, onClose }) => {
             <div className="flex items-center gap-5 mb-8 p-5 bg-black/40 rounded-xl border border-white/5">
               <div className="w-16 h-16 rounded-xl border border-[#00f5ff]/20 overflow-hidden bg-[#05080c] p-1 flex-shrink-0">
                 <img
-                  src={`https://api.dicebear.com/7.x/bottts/svg?seed=${operative.name.split(" ")[0]}&backgroundColor=0b111a`}
-                  alt={operative.name}
+                  src={`https://api.dicebear.com/7.x/bottts/svg?seed=${(operative.name || "expert").split(" ")[0]}&backgroundColor=0b111a`}
+                  alt={operative.name || "Expert"}
                   className="w-full h-full object-cover rounded-lg"
                 />
               </div>
@@ -121,16 +121,16 @@ const ConsultationModal = ({ operative, onClose }) => {
                   <span className="material-symbols-outlined text-[#39ff14] text-[16px]">verified_user</span>
                   <span className="font-mono text-[10px] font-bold text-[#39ff14] tracking-[0.3em] uppercase bg-[#39ff14]/10 border border-[#39ff14]/30 px-2.5 py-0.5 rounded flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 bg-[#39ff14] rounded-full animate-pulse inline-block" />
-                    VERIFIED_OPERATIVE
+                    VERIFIED_EXPERT
                   </span>
                 </div>
                 <p className="font-mono text-[10px] text-white/40 tracking-widest uppercase">
-                  OPERATIVE_ID: {operative.id} // NDA_BOUND
+                  EXPERT_ID: {operative.id} // NDA_BOUND
                 </p>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
 
               {/* ── Trust Ledger ── */}
               <div className="bg-black/40 border border-white/5 rounded-xl p-5">
@@ -151,19 +151,19 @@ const ConsultationModal = ({ operative, onClose }) => {
                   {/* Sprint History */}
                   <div className="flex justify-between items-center text-[10px] font-mono">
                     <span className="text-white/40 uppercase tracking-widest">COMPLETED SPRINTS</span>
-                    <span className="text-white font-bold">{operative.sprints ?? "34"}</span>
+                    <span className="text-white font-bold">{operative.sprints_completed ?? "34"}</span>
                   </div>
 
                   {/* Trust Score bar */}
                   <div>
                     <div className="flex justify-between items-center text-[10px] font-mono mb-1.5">
                       <span className="text-white/40 uppercase tracking-widest">TRUST SCORE</span>
-                      <span className="text-[#00f5ff] font-bold">{operative.trustScore ?? "9.4"} / 10</span>
+                      <span className="text-[#00f5ff] font-bold">{operative.trust_score ?? "9.4"} / 10</span>
                     </div>
                     <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/5">
                       <motion.div
                         initial={{ width: 0 }}
-                        animate={{ width: `${((operative.trustScore ?? 9.4) / 10) * 100}%` }}
+                        animate={{ width: `${((operative.trust_score ?? 9.4) / 10) * 100}%` }}
                         transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
                         className="h-full rounded-full"
                         style={{ background: "linear-gradient(90deg, #00f5ff, #d1b3ff)" }}
@@ -189,10 +189,10 @@ const ConsultationModal = ({ operative, onClose }) => {
                 </div>
 
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {(operative.specialties ?? ["#API_SECURITY", "#AUTH_AUDIT", "#REMEDIATION_GUIDE"]).map((spec) => (
+                  {(operative.specialties ?? ["API Security", "Auth Audit", "Remediation Guide"]).map((spec) => (
                     <span
                       key={spec}
-                      className="font-mono text-[9px] bg-[#00f5ff]/5 border border-[#00f5ff]/20 px-2.5 py-1 rounded text-[#00f5ff] tracking-widest"
+                      className="font-mono text-[9px] bg-[#00f5ff]/5 border border-[#00f5ff]/20 px-2.5 py-1 rounded text-[#00f5ff] tracking-widest uppercase"
                     >
                       {spec}
                     </span>
@@ -200,7 +200,7 @@ const ConsultationModal = ({ operative, onClose }) => {
                 </div>
 
                 <p className="font-mono text-[10px] text-white/50 leading-relaxed">
-                  Guided Remediation approach — this operative doesn't just surface vulnerabilities. 
+                  Guided Remediation approach — this expert doesn't just surface vulnerabilities. 
                   They deliver step-by-step remediation protocols ensuring your team can implement fixes without a full-time security hire.
                 </p>
               </div>
@@ -211,7 +211,7 @@ const ConsultationModal = ({ operative, onClose }) => {
               <div className="flex items-center gap-2 mb-4">
                 <span className="material-symbols-outlined text-[#ffcc00] text-[16px]">receipt_long</span>
                 <h3 className="font-mono text-[10px] font-bold text-white/50 tracking-[0.3em] uppercase">
-                  Engagement Console // Available Sprints
+                  Engagement Console
                 </h3>
               </div>
 
@@ -242,8 +242,8 @@ const ConsultationModal = ({ operative, onClose }) => {
               }}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
-                <span className="material-symbols-outlined text-[16px]">lock</span>
-                INITIATE_SECURE_CHANNEL
+                <span className="material-symbols-outlined text-[16px]">calendar_today</span>
+                BOOK_CONSULTATION
               </span>
               {/* shimmer sweep */}
               <span className="absolute inset-0 translate-x-[-100%] group-hover/cta:translate-x-[100%] transition-transform duration-700 bg-gradient-to-r from-transparent via-white/20 to-transparent" />
@@ -254,8 +254,9 @@ const ConsultationModal = ({ operative, onClose }) => {
               All communications are end-to-end encrypted // NDA enforced by platform
             </p>
           </div>
-        </motion.div>
+        </div>
       </motion.div>
+    </motion.div>
 
       {/* Glitch keyframe injected inline */}
       <style>{`

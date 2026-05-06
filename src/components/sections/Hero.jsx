@@ -9,9 +9,7 @@ const Hero = () => {
 
       <div className="container mx-auto px-8 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
         <div className="space-y-10 pt-16">
-          <div className="inline-block px-3 py-1 bg-tertiary/10 border border-tertiary/30">
-            <span className="font-mono text-[10px] text-tertiary uppercase tracking-[0.3em]">System Status: Operational</span>
-          </div>
+          
           <h1 className="flex flex-col font-black font-space uppercase">
             <span className="text-white text-7xl tracking-tight leading-[1]">SECURING</span>
             <span className="text-white text-7xl tracking-tight leading-[1]">YOUR STARTUP</span>

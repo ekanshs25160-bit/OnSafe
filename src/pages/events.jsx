@@ -15,7 +15,7 @@ const EventsPage = () => {
                   <div className="w-full md:w-1/2">
                       <span className="text-cyber text-sm font-bold uppercase tracking-widest bg-cyber/10 px-4 py-2 rounded-full">Coming Soon</span>
                       <h2 className="text-5xl font-black mt-6 mb-4">Code Quest 2026</h2>
-                      <p className="text-[#8b949e] text-lg mb-8">Our flagship 24-hour hackathon is back, bigger and better than ever. Compete with the best minds for a prize pool of $1000.</p>
+                      <p className="text-[#8b949e] text-lg mb-8">Our flagship 24-hour hackathon is back, bigger and better than ever. Compete with the best minds for a prize pool of ₹80,000.</p>
                       <button className="btn-primary">Register Now</button>
                   </div>
               </div>
