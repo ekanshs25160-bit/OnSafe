@@ -21,17 +21,43 @@ const Hero = () => {
             <span className="text-white">OnSafe</span> is a trust-centric collaboration platform connecting early-stage founders with verified security experts — reducing launch risk through affordable, structured sprint packages and built-in legal safeguards.
           </p>
 
-          <div className="flex flex-wrap gap-6 pt-4">
-            <a href="/auth" className="bg-[#d1b3ff] text-black font-mono font-black px-10 py-4 rounded-xl tracking-widest text-xs hover:bg-[#e1ccff] transition-all active:scale-95 shadow-[0_0_30px_rgba(209,179,255,0.4)] uppercase inline-block">
-              SECURE MY MVP
-            </a>
-            <div className="flex flex-col justify-center">
-              <a href="/sprints" className="bg-transparent border border-[#00f5ff]/40 text-[#00f5ff] font-mono font-bold px-10 py-4 rounded-xl tracking-widest text-xs hover:bg-[#00f5ff]/10 hover:border-[#00f5ff] transition-all active:scale-95 uppercase inline-block">
-                VIEW PRICING &amp; PACKAGES
-              </a>
-              <span className="font-mono text-[9px] text-white/30 tracking-widest mt-1.5 pl-1 uppercase">
-                Transparent, tiered pricing — built for startup budgets
-              </span>
+          <div className="flex flex-col gap-6 pt-4 max-w-lg">
+            <div className="relative group">
+              <div className="absolute -inset-1 bg-gradient-to-r from-[#00f5ff] to-[#d1b3ff] rounded-xl blur opacity-25 group-focus-within:opacity-50 transition duration-1000"></div>
+              <div className="relative flex items-center bg-[#0b111a] border border-white/10 rounded-xl overflow-hidden">
+                <div className="pl-4 text-white/30 font-mono text-xs">HTTPS://</div>
+                <input 
+                  id="target-url"
+                  type="text" 
+                  placeholder="ENTER_STARTUP_URL_FOR_SCAN..." 
+                  className="bg-transparent border-none text-white font-mono text-sm px-4 py-4 w-full focus:outline-none focus:ring-0 placeholder:text-white/20"
+                />
+                <button 
+                  onClick={() => {
+                    const url = document.getElementById('target-url').value;
+                    if (url) {
+                      localStorage.setItem('onSafe_scanUrl', url);
+                      localStorage.setItem('onSafe_isScanning', 'true');
+                      window.history.pushState({}, '', '/dashboard');
+                      window.dispatchEvent(new PopStateEvent('popstate'));
+                    }
+                  }}
+                  className="bg-[#d1b3ff] text-black font-mono font-black px-6 py-4 tracking-widest text-[10px] hover:bg-[#e1ccff] transition-all active:scale-95 uppercase whitespace-nowrap"
+                >
+                  INITIATE_PROTOCOL
+                </button>
+              </div>
+            </div>
+            
+            <div className="flex flex-wrap gap-4">
+              <div className="flex flex-col justify-center">
+                <a href="/sprints" className="bg-transparent border border-[#00f5ff]/40 text-[#00f5ff] font-mono font-bold px-8 py-3 rounded-xl tracking-widest text-[10px] hover:bg-[#00f5ff]/10 hover:border-[#00f5ff] transition-all active:scale-95 uppercase inline-block">
+                  VIEW PRICING &amp; PACKAGES
+                </a>
+                <span className="font-mono text-[8px] text-white/30 tracking-widest mt-1.5 pl-1 uppercase">
+                  Transparent, tiered pricing — built for startup budgets
+                </span>
+              </div>
             </div>
           </div>
 
