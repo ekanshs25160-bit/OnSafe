@@ -9,21 +9,19 @@
 
 import express from "express";
 import cors from "cors";
-import { createRequire } from "module";
-import path from "path";
-import { fileURLToPath } from "url";
 
-// ─── Compatibility helpers (ESM → require for JSON imports) ────────────────
-const require = createRequire(import.meta.url);
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// ─── Data imports (ESM-compatible .js modules for Vercel bundler) ──────────
+import expertsData from "./data/experts.js";
+import sprintsData from "./data/sprints.js";
+import vulnerabilitiesData from "./data/vulnerabilities.js";
+import projectStatusData from "./data/project_status.js";
+import expertReportsData from "./data/expert_reports.js";
 
-// ─── Data imports ──────────────────────────────────────────────────────────
-const experts = require("./data/experts.json");
-const sprints = require("./data/sprints.json");
-const vulnerabilities = require("./data/vulnerabilities.json");
-const projectStatus = require("./data/project_status.json");
-const expertReports = require("./data/expert_reports.json");
+const experts = expertsData;
+const sprints = sprintsData;
+const vulnerabilities = vulnerabilitiesData;
+const projectStatus = projectStatusData;
+const expertReports = expertReportsData;
 
 // ─── App setup ─────────────────────────────────────────────────────────────
 const app = express();
@@ -93,21 +91,19 @@ function respond(res, data, meta = null) {
   res.json(payload);
 }
 
-// ─── Routes ────────────────────────────────────────────────────────────────
+// ─── Router (mount at both /api and / for Vercel compatibility) ──────────────
+const router = express.Router();
 
 /** Health check — useful for deployment ping tests */
-app.get("/health", (_req, res) => {
+router.get("/health", (_req, res) => {
   res.json({ status: "ok", service: "OnSafe Mock API", port: PORT });
 });
 
 /**
- * GET /api/experts
+ * GET /experts
  * Returns the verified security practitioner directory.
- * Optional query params:
- *   ?available=true   → filter to experts whose availability !== "Booked"
- *   ?specialty=<str>  → case-insensitive filter on specialties array
  */
-app.get("/api/experts", (req, res) => {
+router.get("/experts", (req, res) => {
   let result = [...experts];
 
   const { available, specialty } = req.query;
@@ -130,10 +126,10 @@ app.get("/api/experts", (req, res) => {
 });
 
 /**
- * GET /api/experts/:id
+ * GET /experts/:id
  * Returns a single expert by their ID (e.g. EXP-001).
  */
-app.get("/api/experts/:id", (req, res) => {
+router.get("/experts/:id", (req, res) => {
   const expert = experts.find(
     (e) => e.id.toLowerCase() === req.params.id.toLowerCase()
   );
@@ -149,18 +145,18 @@ app.get("/api/experts/:id", (req, res) => {
 });
 
 /**
- * GET /api/sprints
+ * GET /sprints
  * Returns all Security Sprint Package tiers.
  */
-app.get("/api/sprints", (_req, res) => {
+router.get("/sprints", (_req, res) => {
   respond(res, sprints, { total: sprints.length });
 });
 
 /**
- * GET /api/sprints/:id
+ * GET /sprints/:id
  * Returns a single sprint tier by its ID (e.g. SPR-ADVANCED).
  */
-app.get("/api/sprints/:id", (req, res) => {
+router.get("/sprints/:id", (req, res) => {
   const sprint = sprints.find(
     (s) => s.id.toLowerCase() === req.params.id.toLowerCase()
   );
@@ -176,10 +172,10 @@ app.get("/api/sprints/:id", (req, res) => {
 });
 
 /**
- * GET /api/experts/:id/report
+ * GET /experts/:id/report
  * Returns the standardized security report metadata for a specific expert.
  */
-app.get("/api/experts/:id/report", (req, res) => {
+router.get("/experts/:id/report", (req, res) => {
   const expertId = req.params.id.toUpperCase();
   const report = expertReports[expertId];
 
@@ -190,7 +186,6 @@ app.get("/api/experts/:id/report", (req, res) => {
     });
   }
 
-  // Also include the findings count from the vulnerabilities table to ensure consistency
   const expertFindings = vulnerabilities.filter(v => v.assigned_expert_id === expertId);
   
   respond(res, {
@@ -200,14 +195,10 @@ app.get("/api/experts/:id/report", (req, res) => {
 });
 
 /**
- * GET /api/dashboard/vulnerabilities
+ * GET /dashboard/vulnerabilities
  * Returns all simulated security findings for the active project.
- * Optional query params:
- *   ?severity=Critical|High|Medium|Low   → filter by severity
- *   ?status=Open|In-Progress|Fixed        → filter by remediation status
- *   ?expert_id=EXP-001                    → filter by assigned expert
  */
-app.get("/api/dashboard/vulnerabilities", (req, res) => {
+router.get("/dashboard/vulnerabilities", (req, res) => {
   let result = [...vulnerabilities];
 
   const { severity, status, expert_id } = req.query;
@@ -230,7 +221,6 @@ app.get("/api/dashboard/vulnerabilities", (req, res) => {
     );
   }
 
-  // Summary counts across the (possibly filtered) result set
   const summary = {
     total: result.length,
     by_severity: {
@@ -250,10 +240,10 @@ app.get("/api/dashboard/vulnerabilities", (req, res) => {
 });
 
 /**
- * GET /api/dashboard/vulnerabilities/:id
+ * GET /dashboard/vulnerabilities/:id
  * Returns a single vulnerability finding by vuln_id (e.g. V-102).
  */
-app.get("/api/dashboard/vulnerabilities/:id", (req, res) => {
+router.get("/dashboard/vulnerabilities/:id", (req, res) => {
   const vuln = vulnerabilities.find(
     (v) => v.vuln_id.toLowerCase() === req.params.id.toLowerCase()
   );
@@ -269,12 +259,16 @@ app.get("/api/dashboard/vulnerabilities/:id", (req, res) => {
 });
 
 /**
- * GET /api/project/status
+ * GET /project/status
  * Returns the current security posture and sprint progress for the active project.
  */
-app.get("/api/project/status", (_req, res) => {
+router.get("/project/status", (_req, res) => {
   respond(res, projectStatus);
 });
+
+// Mount router at both /api (local dev with proxy) and / (Vercel serverless)
+app.use("/api", router);
+app.use("/", router);
 
 // ─── 404 handler ───────────────────────────────────────────────────────────
 app.use((req, res) => {
@@ -301,30 +295,5 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ success: false, error: "Internal server error." });
 });
 
-// ─── Export for serverless (Vercel) ─────────────────────────────────────────
+// ─── Export for serverless (Vercel) and local dev ────────────────────────────
 export default app;
-
-// ─── Start (only when running directly, not in serverless) ───────────────────
-if (!process.env.VERCEL) {
-  app.listen(PORT, () => {
-    console.log("");
-    console.log("  ┌─────────────────────────────────────────────┐");
-    console.log("  │        OnSafe Mock API Server                │");
-    console.log("  │  Running on  →  http://localhost:" + PORT + "        │");
-    console.log("  │  500ms latency simulation  →  ENABLED        │");
-    console.log("  │  CORS         →  localhost:* allowed         │");
-    console.log("  └─────────────────────────────────────────────┘");
-    console.log("");
-    console.log("  Available endpoints:");
-    console.log("    GET  /health");
-    console.log("    GET  /api/experts");
-    console.log("    GET  /api/experts/:id");
-    console.log("    GET  /api/experts/:id/report");
-    console.log("    GET  /api/sprints");
-    console.log("    GET  /api/sprints/:id");
-    console.log("    GET  /api/dashboard/vulnerabilities");
-    console.log("    GET  /api/dashboard/vulnerabilities/:id");
-    console.log("    GET  /api/project/status");
-    console.log("");
-  });
-}

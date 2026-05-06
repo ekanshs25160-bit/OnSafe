@@ -1,0 +1,50 @@
+export default {
+  "EXP-001": {
+    "global_health_score": 65,
+    "health_grade": "D",
+    "health_label": "Critical Attention Required",
+    "findings_count": 3,
+    "sprint_id": "SPR-ADVANCED",
+    "nda_id": "NDA-SAFE-2024-001"
+  },
+  "EXP-002": {
+    "global_health_score": 80,
+    "health_grade": "B-",
+    "health_label": "Moderately Secure",
+    "findings_count": 1,
+    "sprint_id": "SPR-ESSENTIAL",
+    "nda_id": "NDA-SAFE-2024-002"
+  },
+  "EXP-003": {
+    "global_health_score": 95,
+    "health_grade": "A",
+    "health_label": "High Security Posture",
+    "findings_count": 1,
+    "sprint_id": "SPR-ESSENTIAL",
+    "nda_id": "NDA-SAFE-2024-003"
+  },
+  "EXP-004": {
+    "global_health_score": 90,
+    "health_grade": "A-",
+    "health_label": "Secure",
+    "findings_count": 1,
+    "sprint_id": "SPR-ESSENTIAL",
+    "nda_id": "NDA-SAFE-2024-004"
+  },
+  "EXP-005": {
+    "global_health_score": 100,
+    "health_grade": "A+",
+    "health_label": "Audit Ready",
+    "findings_count": 0,
+    "sprint_id": "SPR-FULL-MVP",
+    "nda_id": "NDA-SAFE-2024-005"
+  },
+  "EXP-006": {
+    "global_health_score": 90,
+    "health_grade": "A-",
+    "health_label": "Secure",
+    "findings_count": 1,
+    "sprint_id": "SPR-ADVANCED",
+    "nda_id": "NDA-SAFE-2024-006"
+  }
+};
