@@ -112,7 +112,7 @@ const Dashboard = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: isScanning ? 0 : 1, y: isScanning ? 20 : 0 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="px-[5%] lg:px-[15%] relative z-10 mb-20 max-w-6xl mx-auto"
+        className="px-[3%] lg:px-[5%] relative z-10 mb-20 max-w-[1400px] mx-auto"
       >
         {/* Strategic Recommendation Notification */}
         <AnimatePresence>
@@ -121,7 +121,7 @@ const Dashboard = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-red-500/10 border border-red-500/30 p-5 rounded-2xl flex items-center justify-between gap-4 mb-12 backdrop-blur-xl"
+              className="bg-red-500/10 border border-red-500/30 p-5 rounded-2xl flex items-center justify-between gap-4 mb-10 backdrop-blur-xl"
             >
               <div className="flex items-center gap-4">
                 <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center">
@@ -145,50 +145,46 @@ const Dashboard = () => {
         </AnimatePresence>
 
         {/* Header Section */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
             <div className="flex items-center justify-center gap-3 mb-4">
               <span className="w-2.5 h-2.5 bg-[#00f5ff] rounded-full animate-pulse shadow-[0_0_12px_rgba(0,245,255,0.8)]"></span>
               <h2 className="font-mono text-[10px] text-[#00f5ff] tracking-[0.4em] uppercase">
-                DISCOVERY_SCAN_RESULTS
+                DISCOVERY SCAN RESULTS
               </h2>
             </div>
-            <h1 className="text-5xl lg:text-6xl font-black font-space uppercase text-white mb-4">
+            <h1 className="text-4xl lg:text-5xl font-black font-space uppercase text-white mb-3">
               {targetUrl.replace(/^https?:\/\//, '').toUpperCase()}
             </h1>
-            <p className="text-white/40 font-mono text-xs uppercase tracking-widest">
-                Timestamp: {new Date().toLocaleString()} // Node: Global-Scanner-01
+            <p className="text-white/40 font-mono text-[10px] uppercase tracking-widest">
+                Timestamp: {new Date().toLocaleString()}
             </p>
         </div>
 
-        {/* Scan Result Grid (Inspired by scan_tool website but premium) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {/* Security Score Card */}
-            <div className="md:col-span-1 bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-10 flex flex-col items-center justify-center relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#00f5ff]/5 to-[#d1b3ff]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <h3 className="font-mono text-[11px] font-bold tracking-[0.2em] text-white/40 mb-10 uppercase relative z-10">
-                    Security_Score
-                </h3>
+        {/* Security Score - Full Width Top Horizontal */}
+        <div className="mb-8 bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-8 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-r from-[#00f5ff]/5 via-transparent to-[#d1b3ff]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="flex flex-col md:flex-row items-center gap-12 relative z-10">
                 <div className="relative">
-                    <svg className="w-48 h-48 transform -rotate-90">
+                    <svg className="w-44 h-44 transform -rotate-90">
                         <circle
-                            cx="96"
-                            cy="96"
-                            r="88"
+                            cx="88"
+                            cy="88"
+                            r="80"
                             stroke="currentColor"
                             strokeWidth="8"
                             fill="transparent"
                             className="text-white/5"
                         />
                         <motion.circle
-                            cx="96"
-                            cy="96"
-                            r="88"
+                            cx="88"
+                            cy="88"
+                            r="80"
                             stroke="currentColor"
                             strokeWidth="8"
                             fill="transparent"
-                            strokeDasharray={552.92}
-                            initial={{ strokeDashoffset: 552.92 }}
-                            animate={{ strokeDashoffset: 552.92 - (552.92 * (scanResult?.score || 0)) / 100 }}
+                            strokeDasharray={502.65}
+                            initial={{ strokeDashoffset: 502.65 }}
+                            animate={{ strokeDashoffset: 502.65 - (502.65 * (scanResult?.score || 0)) / 100 }}
                             transition={{ duration: 2, ease: "easeOut", delay: 0.5 }}
                             className={`${
                                 (scanResult?.score || 0) >= 80 ? 'text-[#39ff14]' : 
@@ -197,101 +193,109 @@ const Dashboard = () => {
                         />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-6xl font-black font-space text-white">
+                        <span className="text-5xl font-black font-space text-white">
                             {scanResult?.score || 0}
                         </span>
-                        <span className="text-[10px] font-mono text-white/30 tracking-widest uppercase">/ 100</span>
+                        <span className="text-[9px] font-mono text-white/30 tracking-widest uppercase">/ 100</span>
                     </div>
                 </div>
-                <div className="mt-8 text-center relative z-10">
-                    <span className={`px-4 py-1.5 rounded-full font-mono text-[10px] font-black tracking-widest uppercase border ${
-                        (scanResult?.score || 0) >= 80 ? 'bg-[#39ff14]/10 text-[#39ff14] border-[#39ff14]/30' : 
-                        (scanResult?.score || 0) >= 50 ? 'bg-[#ffcc00]/10 text-[#ffcc00] border-[#ffcc00]/30' : 'bg-red-500/10 text-red-500 border-red-500/30'
-                    }`}>
-                        {(scanResult?.score || 0) >= 80 ? 'EXCELLENT' : (scanResult?.score || 0) >= 50 ? 'NEEDS ATTENTION' : 'CRITICAL RISK'}
-                    </span>
-                </div>
-            </div>
 
-            {/* Issues Found List */}
-            <div className="md:col-span-2 bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-10">
-                <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
-                    <h3 className="font-space font-bold text-white uppercase tracking-wider flex items-center gap-3">
-                        <span className="material-symbols-outlined text-red-500">bug_report</span>
-                        Issues_Found
-                    </h3>
-                    <span className="font-mono text-[10px] text-white/20 uppercase tracking-[0.2em]">
-                        Count: {scanResult?.issues.length || 0}
-                    </span>
-                </div>
-                <div className="space-y-4 max-h-[300px] overflow-y-auto pr-2 custom-scrollbar">
-                    {scanResult?.issues.map((issue, index) => (
-                        <motion.div 
-                            key={index}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.1 * index }}
-                            className="flex items-start gap-4 p-4 bg-white/5 rounded-xl border border-white/5 hover:border-red-500/30 transition-all group"
-                        >
-                            <span className="text-red-500 font-mono text-xs mt-0.5 opacity-50 group-hover:opacity-100">0{index + 1}</span>
-                            <p className="text-sm text-white/80 font-medium">{issue}</p>
-                        </motion.div>
-                    ))}
+                <div className="flex-1 text-center md:text-left space-y-4">
+                    <div className="flex items-center justify-center md:justify-start gap-3 mb-2">
+                        <h3 className="font-mono text-[11px] font-bold tracking-[0.3em] text-white/60 uppercase">
+                            Global Security Index
+                        </h3>
+                        <span className={`px-4 py-1 rounded-full font-mono text-[9px] font-black tracking-widest uppercase border ${
+                            (scanResult?.score || 0) >= 80 ? 'bg-[#39ff14]/10 text-[#39ff14] border-[#39ff14]/30' : 
+                            (scanResult?.score || 0) >= 50 ? 'bg-[#ffcc00]/10 text-[#ffcc00] border-[#ffcc00]/30' : 'bg-red-500/10 text-red-500 border-red-500/30'
+                        }`}>
+                            {(scanResult?.score || 0) >= 80 ? 'OPTIMIZED' : (scanResult?.score || 0) >= 50 ? 'ACTION REQUIRED' : 'CRITICAL THREAT'}
+                        </span>
+                    </div>
+                    <p className="text-white/50 font-mono text-xs leading-relaxed max-w-3xl">
+                        Your security posture is calculated based on SSL/TLS encryption strength, HTTP security headers, cookie safety, and open port vulnerability analysis. 
+                        <span className="text-[#00f5ff] block mt-1">Recommended: Address all high-severity issues before production deployment.</span>
+                    </p>
+                    <div className="flex flex-wrap gap-4 pt-1">
+                        <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-lg">
+                            <span className="block font-mono text-[8px] text-white/30 uppercase tracking-widest">Protocol</span>
+                            <span className="text-white font-mono text-[11px] font-bold">DISCOVERY SCAN</span>
+                        </div>
+                        <div className="bg-white/5 border border-white/10 px-4 py-2 rounded-lg">
+                            <span className="block font-mono text-[8px] text-white/30 uppercase tracking-widest">Status</span>
+                            <span className="text-[#39ff14] font-mono text-[11px] font-bold uppercase animate-pulse">Monitoring Active</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-            {/* Recommendations */}
-            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-10">
-                <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
-                    <h3 className="font-space font-bold text-white uppercase tracking-wider flex items-center gap-3">
-                        <span className="material-symbols-outlined text-[#39ff14]">auto_fix_high</span>
-                        Strategic_Recommendations
+        {/* Other Cards - Horizontal Row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {/* Issues Found */}
+            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col h-[350px]">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/5">
+                    <h3 className="font-space font-bold text-white text-xs uppercase tracking-wider flex items-center gap-2">
+                        <span className="material-symbols-outlined text-red-500 text-sm">bug_report</span>
+                        Issues
                     </h3>
                 </div>
-                <div className="space-y-4">
+                <div className="space-y-3 overflow-y-auto pr-1 custom-scrollbar flex-1">
+                    {scanResult?.issues.map((issue, index) => (
+                        <div key={index} className="p-3 bg-white/5 rounded-lg border border-white/5 group hover:border-red-500/30 transition-colors">
+                            <p className="text-xs text-white/70 font-medium leading-relaxed">{issue}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Recommendations */}
+            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col h-[350px]">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/5">
+                    <h3 className="font-space font-bold text-white text-xs uppercase tracking-wider flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#39ff14] text-sm">auto_fix_high</span>
+                        Remediation
+                    </h3>
+                </div>
+                <div className="space-y-3 overflow-y-auto pr-1 custom-scrollbar flex-1">
                     {scanResult?.recommendations.map((rec, index) => (
-                        <div key={index} className="flex gap-4 p-4 bg-[#39ff14]/5 rounded-xl border border-[#39ff14]/10">
-                            <span className="material-symbols-outlined text-[#39ff14] text-sm">check_circle</span>
-                            <p className="text-sm text-white/70">{rec}</p>
+                        <div key={index} className="p-3 bg-[#39ff14]/5 rounded-lg border border-[#39ff14]/10 group hover:border-[#39ff14]/40 transition-colors">
+                            <p className="text-xs text-white/60 leading-relaxed">{rec}</p>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Open Ports */}
-            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-3xl p-10">
-                <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
-                    <h3 className="font-space font-bold text-white uppercase tracking-wider flex items-center gap-3">
-                        <span className="material-symbols-outlined text-[#d1b3ff]">lan</span>
-                        Open_Network_Ports
+            <div className="bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col h-[350px]">
+                <div className="flex items-center justify-between mb-4 pb-2 border-b border-white/5">
+                    <h3 className="font-space font-bold text-white text-xs uppercase tracking-wider flex items-center gap-2">
+                        <span className="material-symbols-outlined text-[#d1b3ff] text-sm">lan</span>
+                        Port Status
                     </h3>
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-2 overflow-y-auto pr-1 custom-scrollbar flex-1">
                     {scanResult?.open_ports.map((port, index) => (
-                        <div key={index} className="p-4 bg-black/40 rounded-xl border border-[#d1b3ff]/20 flex flex-col items-center justify-center group hover:border-[#d1b3ff] transition-all">
-                            <span className="font-mono text-2xl font-black text-white group-hover:text-[#d1b3ff] transition-colors">{port}</span>
-                            <span className="font-mono text-[9px] text-white/30 uppercase tracking-widest mt-1">
-                                {port === 80 ? 'HTTP' : port === 443 ? 'HTTPS' : port === 22 ? 'SSH' : port === 3306 ? 'MYSQL' : 'OPEN'}
-                            </span>
+                        <div key={index} className="p-3 bg-black/40 rounded-lg border border-white/5 flex flex-col items-center justify-center group hover:border-[#d1b3ff] transition-all">
+                            <span className="font-mono text-lg font-black text-white group-hover:text-[#d1b3ff] transition-colors">{port}</span>
+                            <span className="font-mono text-[7px] text-white/30 uppercase tracking-widest mt-0.5">{port === 80 ? 'HTTP' : port === 443 ? 'HTTPS' : 'OPEN'}</span>
                         </div>
                     ))}
-                    {scanResult?.open_ports.length === 0 && (
-                        <p className="col-span-full text-center text-white/30 font-mono text-xs py-8 italic">
-                            No common open ports detected.
-                        </p>
-                    )}
                 </div>
             </div>
         </div>
 
-        <div className="text-center pt-8 border-t border-white/5">
-            <button className="bg-gradient-to-r from-[#00f5ff] to-[#d1b3ff] text-black font-mono font-black px-12 py-5 rounded-2xl tracking-widest text-xs hover:scale-105 transition-all active:scale-95 shadow-[0_0_50px_rgba(0,245,255,0.3)] uppercase">
-                HIRE AN EXPERT TO FIX THESE ISSUES
+        {/* Action Button - More Compact */}
+        <div className="flex flex-col items-center justify-center py-8 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-md max-w-4xl mx-auto">
+            <h4 className="text-[#00f5ff] font-mono text-[9px] tracking-[0.4em] uppercase mb-4 font-bold">READY FOR REMEDIATION?</h4>
+            <button className="group relative">
+                <div className="absolute -inset-1 bg-gradient-to-r from-[#00f5ff] to-[#d1b3ff] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                <div className="relative bg-[#d1b3ff] text-black font-mono font-black px-12 py-4 rounded-xl tracking-[0.2em] text-xs hover:scale-[1.02] transition-all active:scale-95 uppercase shadow-[0_15px_40px_rgba(209,179,255,0.2)]">
+                    HIRE AN EXPERT TO FIX THESE ISSUES
+                </div>
             </button>
-            <p className="mt-6 text-white/30 font-mono text-[10px] uppercase tracking-[0.3em]">
-                Secure your startup today with OnSafe verified experts.
+            <p className="mt-6 text-white/30 font-mono text-[8px] uppercase tracking-[0.4em]">
+                // SECURE_YOUR_STARTUP_NOW
             </p>
         </div>
       </motion.main>
