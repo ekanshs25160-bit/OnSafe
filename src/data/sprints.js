@@ -1,4 +1,4 @@
-export default [
+export const sprints = [
   {
     "id": "SPR-ESSENTIAL",
     "tier_name": "Essential",

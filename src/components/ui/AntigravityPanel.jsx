@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from "framer-motion";
+import { projectStatus } from "../../data/project_status";
+import { expertReports } from "../../data/expert_reports";
+import { vulnerabilities } from "../../data/vulnerabilities";
 
 const AntigravityPanel = ({ expertId, disableMotion = false }) => {
   const [data, setData] = useState(null);
@@ -26,30 +29,15 @@ const AntigravityPanel = ({ expertId, disableMotion = false }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // If expertId is provided, fetch expert-specific report
-        // Otherwise fetch global project status
-        const statusUrl = expertId 
-          ? `/api/experts/${expertId}/report`
-          : `/api/project/status`;
-          
-        const vulnsUrl = expertId
-          ? `/api/dashboard/vulnerabilities?expert_id=${expertId}`
-          : `/api/dashboard/vulnerabilities`;
+        // Simulate network delay
+        await new Promise(resolve => setTimeout(resolve, 600));
 
-        const [statusRes, vulnsRes] = await Promise.all([
-          fetch(statusUrl),
-          fetch(vulnsUrl)
-        ]);
-        
-        const statusResult = await statusRes.json();
-        const vulnsResult = await vulnsRes.json();
-
-        if (statusResult.success) {
-          // The expert report endpoint returns the whole report object
-          setData(expertId ? statusResult.data : statusResult.data);
-        }
-        if (vulnsResult.success) {
-          setVulns(vulnsResult.data.slice(0, 3));
+        if (expertId) {
+          setData(expertReports[expertId] || null);
+          setVulns(vulnerabilities.filter(v => v.assigned_expert_id === expertId).slice(0, 3));
+        } else {
+          setData(projectStatus);
+          setVulns(vulnerabilities.slice(0, 3));
         }
       } catch (err) {
         console.error("Antigravity Panel Fetch Error:", err);

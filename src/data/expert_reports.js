@@ -1,4 +1,4 @@
-{
+export const expertReports = {
   "EXP-001": {
     "global_health_score": 65,
     "health_grade": "D",
@@ -47,4 +47,4 @@
     "sprint_id": "SPR-ADVANCED",
     "nda_id": "NDA-SAFE-2024-006"
   }
-}
+};

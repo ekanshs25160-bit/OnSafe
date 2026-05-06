@@ -3,6 +3,7 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import ConsultationModal from "../components/ui/ConsultationModal";
 import ExpertReportModal from "../components/ui/ExpertReportModal";
+import { experts } from "../data/experts";
 
 const ExpertDirectory = () => {
     const filters = ["ALL", "API_SECURITY", "AUTH_AUDITS", "CLOUD_CONFIG", "PEN_TESTING"];
@@ -17,20 +18,15 @@ const ExpertDirectory = () => {
         const fetchExperts = async () => {
             try {
                 setStatus("REQUESTING_TRUST_DATA...");
-                const response = await fetch('/api/experts');
-                const result = await response.json();
-                
-                if (result.success) {
-                    setStatus("HANDSHAKE_COMPLETE. DATA_RECOVERED.");
-                    setOperatives(result.data);
-                } else {
-                    setStatus("ERROR: ACCESS_DENIED.");
-                }
+                // Simulate delay
+                await new Promise(resolve => setTimeout(resolve, 600));
+                setStatus("HANDSHAKE_COMPLETE. DATA_RECOVERED.");
+                setOperatives(experts);
             } catch (error) {
                 console.error('Error fetching experts:', error);
                 setStatus("ERROR: CONNECTION_FAILED.");
             } finally {
-                setTimeout(() => setLoading(false), 800); // Small delay to show the status message
+                setTimeout(() => setLoading(false), 800);
             }
         };
 

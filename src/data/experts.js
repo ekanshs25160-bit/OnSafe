@@ -1,4 +1,4 @@
-[
+export const experts = [
   {
     "id": "EXP-001",
     "name": "Aisha Mercer",
@@ -77,4 +77,4 @@
     "availability": "Available",
     "hourly_rate_usd": 350
   }
-]
+];

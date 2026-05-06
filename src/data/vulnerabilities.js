@@ -1,4 +1,4 @@
-export default [
+export const vulnerabilities = [
   {
     "vuln_id": "V-API-101",
     "title": "Broken Object Level Authorization (BOLA)",

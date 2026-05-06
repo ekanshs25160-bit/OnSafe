@@ -1,4 +1,4 @@
-{
+export const projectStatus = {
   "project_id": "PROJ-2024-0047",
   "project_name": "PayFlow MVP",
   "startup_name": "PayFlow Technologies Inc.",
@@ -45,4 +45,4 @@
   "next_milestone_date": "2026-05-07",
   "trust_certificate_eligible": false,
   "trust_certificate_eligible_after_fixes": 4
-}
+};

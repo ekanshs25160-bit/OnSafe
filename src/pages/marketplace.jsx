@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { sprints } from "../data/sprints";
 
 const SecuritySprintMarketplace = () => {
   const [sprintPackages, setSprintPackages] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/sprints")
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.success) {
-          setSprintPackages(result.data);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching sprints:", err);
-        setLoading(false);
-      });
+    // Simulate network delay for that "tactical" feel
+    const timer = setTimeout(() => {
+      setSprintPackages(sprints);
+      setLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
   }, []);
 
   const workflowSteps = [

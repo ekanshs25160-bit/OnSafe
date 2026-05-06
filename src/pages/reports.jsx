@@ -2,26 +2,20 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import AntigravityPanel from "../components/ui/AntigravityPanel";
+import { vulnerabilities } from "../data/vulnerabilities";
 
 const Dashboard = () => {
   const [selectedVuln, setSelectedVuln] = useState(null);
-  const [vulnerabilities, setVulnerabilities] = useState([]);
+  const [vulnerabilitiesList, setVulnerabilitiesList] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Basic fetch for the vulnerabilities list below
-    fetch("/api/dashboard/vulnerabilities")
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.success) {
-          setVulnerabilities(result.data);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching vulnerabilities:", err);
-        setLoading(false);
-      });
+    // Simulate data load
+    const timer = setTimeout(() => {
+      setVulnerabilitiesList(vulnerabilities);
+      setLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
@@ -81,13 +75,13 @@ const Dashboard = () => {
                     <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                         <div className="font-mono text-[9px] text-red-500 uppercase tracking-widest mb-1">Critical</div>
                         <div className="font-space font-black text-3xl text-white">
-                            {vulnerabilities.filter(v => v.severity === 'Critical').length}
+                            {vulnerabilitiesList.filter(v => v.severity === 'Critical').length}
                         </div>
                     </div>
                     <div className="p-4 bg-white/5 rounded-xl border border-white/5">
                         <div className="font-mono text-[9px] text-orange-500 uppercase tracking-widest mb-1">High_Risk</div>
                         <div className="font-space font-black text-3xl text-white">
-                            {vulnerabilities.filter(v => v.severity === 'High').length}
+                            {vulnerabilitiesList.filter(v => v.severity === 'High').length}
                         </div>
                     </div>
                 </div>
@@ -141,7 +135,7 @@ const Dashboard = () => {
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
-                            {vulnerabilities.map((vuln) => (
+                            {vulnerabilitiesList.map((vuln) => (
                                 <tr 
                                     key={vuln.vuln_id}
                                     className="group hover:bg-white/[0.02] transition-colors cursor-pointer"
