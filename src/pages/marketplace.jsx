@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 
 const SecuritySprintMarketplace = () => {
-  const [sprintPackages, setSprintPackages] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
+  const [sprintPackages, setSprintPackages] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  React.useEffect(() => {
-    fetch("http://localhost:3000/api/sprints")
+  useEffect(() => {
+    fetch("/api/sprints")
       .then((res) => res.json())
       .then((result) => {
         if (result.success) {
@@ -22,30 +22,10 @@ const SecuritySprintMarketplace = () => {
   }, []);
 
   const workflowSteps = [
-    {
-      step: "01",
-      title: "Secure Onboarding & NDA",
-      desc: "Sign automated, legally-binding NDAs in seconds. Your code and product ideas stay protected before any expert gains access.",
-      icon: "gavel"
-    },
-    {
-      step: "02",
-      title: "Verified Expert Matching",
-      desc: "Get matched with a verified security expert who specialises in your exact tech stack — no guesswork, no cold outreach.",
-      icon: "verified_user"
-    },
-    {
-      step: "03",
-      title: "Clear Vulnerability Report",
-      desc: "Receive a plain-language security report. Every issue is ranked by severity with clear explanations your team can understand.",
-      icon: "bug_report"
-    },
-    {
-      step: "04",
-      title: "Step-by-Step Fix Guide",
-      desc: "Your expert doesn't disappear after reporting. They work with you directly to patch vulnerabilities — a joint engagement until your MVP is secure.",
-      icon: "build_circle"
-    }
+    { step: "01", icon: "hub", title: "Select Tier", desc: "Choose a sprint package that fits your current dev stage and risk profile." },
+    { step: "02", icon: "verified_user", title: "NDA Protocol", desc: "Automated NDA generation ensures your IP is protected before expert onboarding." },
+    { step: "03", icon: "terminal", title: "Expert Sprint", desc: "Verified experts conduct a time-boxed, tactical audit of your codebase." },
+    { step: "04", icon: "auto_fix_high", title: "Remediation", desc: "Receive a standardized report with founder-friendly fix guides and score." },
   ];
 
   return (
@@ -56,15 +36,15 @@ const SecuritySprintMarketplace = () => {
         {/* Background Grid Pattern */}
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgweiIgZmlsbD0ibm9uZSIvPjxwYXRoIGQ9Ik0wIDM5LjVoNDBWNDBIMHoiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wMykiLz48cGF0aCBkPSJNMzkuNSAwVjQwaC41VjB6IiBmaWxsPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDMpIi8+PC9zdmc+')] pointer-events-none opacity-50 z-0"></div>
 
-        <div className="relative z-10 flex flex-col xl:flex-row gap-12">
+        <div className="relative z-10 flex flex-col gap-12">
           
           {/* Main Content Area */}
           <div className="flex-1">
             {/* Header Node */}
             <div className="mb-12">
               <h1 className="text-5xl md:text-7xl font-black font-space uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60 mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                        <span className="text-[#d1b3ff]">Security Marketplace</span>
-                    </h1>
+                <span className="text-[#d1b3ff]">Security Marketplace</span>
+              </h1>
               <p className="text-white/60 text-lg md:text-xl max-w-2xl leading-relaxed font-inter">
                 Affordable, pre-defined security packages built for early-stage founders — because 61% of startups skip security testing due to budget constraints. We fix that.
               </p>
@@ -83,57 +63,92 @@ const SecuritySprintMarketplace = () => {
               </div>
             </div>
 
-            {/* Tiered Sprint Grid */}
+            {/* System Feed - Moved Upwards */}
+            <div className="mb-12 bg-[#05080c]/60 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-xl flex flex-wrap items-center justify-between gap-8">
+                <div className="flex items-center gap-4">
+                   <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-[#39ff14] animate-pulse"></span>
+                      <h3 className="font-mono text-[11px] font-bold text-white tracking-widest uppercase">SYSTEM FEED</h3>
+                   </div>
+                   <div className="hidden md:flex items-center gap-4 ml-8 border-l border-white/10 pl-8">
+                        <div>
+                            <span className="font-mono text-[9px] text-white/40 tracking-[0.2em] uppercase mr-2">Active_Sprints:</span>
+                            <span className="font-space font-bold text-[#00f5ff]">34</span>
+                        </div>
+                        <div>
+                            <span className="font-mono text-[9px] text-white/40 tracking-[0.2em] uppercase mr-2">Operatives_Online:</span>
+                            <span className="font-space font-bold text-[#39ff14]">12</span>
+                        </div>
+                        <div>
+                            <span className="font-mono text-[9px] text-white/40 tracking-[0.2em] uppercase mr-2">Avg_Risk_Reduction:</span>
+                            <span className="font-space font-bold text-[#d1b3ff]">94.2%</span>
+                        </div>
+                   </div>
+                </div>
+                
+                <div className="flex items-center gap-6 font-mono text-[9px] text-white/30 tracking-widest bg-black/40 px-4 py-2 rounded-lg border border-white/5">
+                    <span className="flex items-center gap-2"><span className="w-1 h-1 bg-[#39ff14] rounded-full"></span> CORE: ONLINE</span>
+                    <span className="flex items-center gap-2"><span className="w-1 h-1 bg-[#00f5ff] rounded-full"></span> NODE: OPTIMISED</span>
+                </div>
+            </div>
+
+            {/* Tiered Sprint Grid - Horizontal Layout */}
             <div className="mb-20">
                <h2 className="font-mono text-[12px] text-white/50 tracking-[0.3em] uppercase mb-8 flex items-center gap-3">
                   <span className="w-8 h-px bg-[#00f5ff]/50"></span>
-                  AVAILABLE_SPRINT_PACKAGES
+                  AVAILABLE PACKAGES
                </h2>
                
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="space-y-6">
                   {loading ? (
                     Array(3).fill(0).map((_, i) => (
-                      <div key={i} className="h-96 bg-white/5 rounded-2xl animate-pulse"></div>
+                      <div key={i} className="h-48 bg-white/5 rounded-2xl animate-pulse"></div>
                     ))
                   ) : (
                     sprintPackages.map((sprint, idx) => (
-                      <div key={sprint.id || idx} className={`relative flex flex-col h-full bg-black/40 backdrop-blur-xl border ${sprint.popular ? 'border-[#00f5ff]/40 shadow-[0_0_20px_rgba(0,245,255,0.1)]' : 'border-white/5'} rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(0,245,255,0.2)] transition-all duration-500 overflow-hidden group hover:border-[#00f5ff]/50`}>
+                      <div key={sprint.id || idx} className={`relative flex flex-col md:flex-row bg-black/40 backdrop-blur-xl border ${sprint.popular ? 'border-[#00f5ff]/40 shadow-[0_0_20px_rgba(0,245,255,0.1)]' : 'border-white/5'} rounded-2xl p-8 hover:shadow-[0_0_30px_rgba(0,245,255,0.2)] transition-all duration-500 overflow-hidden group hover:border-[#00f5ff]/50`}>
                          {sprint.popular && (
-                            <div className="absolute top-4 right-4 bg-[#00f5ff] text-black font-space font-bold text-[9px] px-2 py-1 rounded uppercase tracking-widest">
+                            <div className="absolute top-0 right-0 bg-[#00f5ff] text-black font-space font-bold text-[9px] px-3 py-1 rounded-bl uppercase tracking-widest z-10">
                                MOST POPULAR
                             </div>
                          )}
                          
-                         <div className="font-mono text-[10px] tracking-widest uppercase mb-4" style={{color: sprint.badge_color || '#00f5ff'}}>
-                           // {sprint.id ? sprint.id.split('-')[1] : `TIER_0${idx + 1}`}
-                         </div>
-                         <h3 className="font-space font-bold text-2xl text-white uppercase mb-2">
-                           {sprint.tier_name}
-                         </h3>
-                         <div className="font-mono text-3xl font-bold text-white mb-8 border-b border-white/5 pb-6">
-                           {sprint.price_display || `₹${(sprint.price || 0).toLocaleString()}`}
-                         </div>
-                         
-                         <div className="flex-1">
-                            <h4 className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase mb-4">Core Focus_</h4>
-                            <ul className="space-y-3 mb-8">
-                               {(sprint.features || sprint.focus || []).map((f, i) => (
-                                 <li key={i} className="flex items-start gap-2 font-mono text-[11px] text-white/70">
-                                    <span className="material-symbols-outlined text-[14px]" style={{color: sprint.badge_color || '#00f5ff'}}>arrow_right</span>
-                                    {f}
-                                 </li>
-                               ))}
-                            </ul>
+                         <div className="md:w-1/4 mb-8 md:mb-0 md:pr-12 md:border-r md:border-white/5">
+                            <div className="font-mono text-[10px] tracking-widest uppercase mb-4" style={{color: sprint.badge_color || '#00f5ff'}}>
+                              // {sprint.id ? sprint.id.split('-')[1] : `TIER_0${idx + 1}`}
+                            </div>
+                            <h3 className="font-space font-bold text-3xl text-white uppercase mb-2">
+                              {sprint.tier_name}
+                            </h3>
+                            <div className="font-mono text-3xl font-bold text-[#00f5ff]">
+                              {sprint.price_display || `₹${(sprint.price || 0).toLocaleString()}`}
+                            </div>
                          </div>
                          
-                         <div className="flex items-center gap-2 font-mono text-[10px] text-white/50 mb-6 bg-white/5 w-max px-3 py-1.5 rounded border border-white/5">
-                            <span className="material-symbols-outlined text-[14px]">schedule</span> TIMELINE: {sprint.estimated_duration || sprint.timeline}
+                         <div className="flex-1 md:px-12 mb-8 md:mb-0">
+                             <h4 className="font-mono text-[10px] tracking-[0.2em] text-white/40 uppercase mb-4">Strategic Focus_</h4>
+                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
+                                {(sprint.features || sprint.focus || []).map((f, i) => (
+                                  <li key={i} className="flex items-start gap-2 font-mono text-[11px] text-white/70">
+                                     <span className="material-symbols-outlined text-[14px]" style={{color: sprint.badge_color || '#00f5ff'}}>check_circle</span>
+                                     {f}
+                                  </li>
+                                ))}
+                             </ul>
+                             <div className="mt-6 flex items-center gap-2 font-mono text-[10px] text-white/50 bg-white/5 w-max px-3 py-1.5 rounded border border-white/5">
+                                <span className="material-symbols-outlined text-[14px]">schedule</span> DURATION: {sprint.estimated_duration || sprint.timeline}
+                             </div>
                          </div>
-   
-                         <a href="/auth" className="w-full py-4 rounded-xl border border-white/10 font-mono text-[11px] font-bold tracking-[0.2em] text-white hover:bg-[#00f5ff] hover:text-black hover:border-[#00f5ff] transition-all duration-300 uppercase flex justify-between items-center px-6 relative overflow-hidden group/btn group-hover:border-[#00f5ff]/50">
-                             <span className="relative z-10"> SELECT_PACKAGE</span>
-                             <span className="material-symbols-outlined text-[16px] relative z-10 group-hover/btn:translate-x-1 transition-transform">chevron_right</span>
-                         </a>
+                         
+                         <div className="md:w-1/4 md:pl-12 flex flex-col justify-center">
+                            <a href="/auth" className="w-full py-4 rounded-xl border border-[#00f5ff]/30 font-mono text-[11px] font-bold tracking-[0.2em] text-[#00f5ff] hover:bg-[#00f5ff] hover:text-black transition-all duration-300 uppercase flex justify-between items-center px-6 relative overflow-hidden group/btn">
+                                <span className="relative z-10"> SELECT PACKAGE</span>
+                                <span className="material-symbols-outlined text-[16px] relative z-10 group-hover/btn:translate-x-1 transition-transform">rocket_launch</span>
+                            </a>
+                            <p className="mt-4 font-mono text-[8px] text-white/20 text-center uppercase tracking-widest leading-relaxed">
+                                Requires Verified Founder Access<br/>& Active NDA Protocol
+                            </p>
+                         </div>
                       </div>
                     ))
                   )}
@@ -147,63 +162,26 @@ const SecuritySprintMarketplace = () => {
                   HOW IT WORKS
                </h2>
                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                 {workflowSteps.map((step, idx) => (
-                   <div key={idx} className="bg-white/5 border border-white/5 p-6 rounded-xl relative overflow-hidden group hover:border-[#d1b3ff]/30 transition-colors">
-                     {/* Number shadow */}
-                     <div className="absolute -right-4 -bottom-6 font-space font-black text-8xl text-white/[0.02] pointer-events-none group-hover:text-white/[0.04] transition-all">
-                       {step.step}
-                     </div>
-                     <div className="flex items-center gap-4 mb-4">
-                        <div className="w-10 h-10 rounded-lg bg-black/50 border border-white/10 flex items-center justify-center group-hover:border-[#d1b3ff]/50 transition-colors">
-                           <span className="material-symbols-outlined text-[#d1b3ff] text-[20px]">{step.icon}</span>
-                        </div>
-                        <h4 className="font-space font-bold uppercase text-white tracking-widest">{step.title}</h4>
-                     </div>
-                     <p className="font-mono text-[10px] text-white/60 leading-relaxed max-w-[90%]">
-                       {step.desc}
-                     </p>
-                   </div>
-                 ))}
+                  {workflowSteps.map((step, idx) => (
+                    <div key={idx} className="bg-white/5 border border-white/5 p-6 rounded-xl relative overflow-hidden group hover:border-[#d1b3ff]/30 transition-colors">
+                      {/* Number shadow */}
+                      <div className="absolute -right-4 -bottom-6 font-space font-black text-8xl text-white/[0.02] pointer-events-none group-hover:text-white/[0.04] transition-all">
+                        {step.step}
+                      </div>
+                      <div className="flex items-center gap-4 mb-4">
+                         <div className="w-10 h-10 rounded-lg bg-black/50 border border-white/10 flex items-center justify-center group-hover:border-[#d1b3ff]/50 transition-colors">
+                            <span className="material-symbols-outlined text-[#d1b3ff] text-[20px]">{step.icon}</span>
+                         </div>
+                         <h4 className="font-space font-bold uppercase text-white tracking-widest">{step.title}</h4>
+                      </div>
+                      <p className="font-mono text-[10px] text-white/60 leading-relaxed max-w-[90%]">
+                        {step.desc}
+                      </p>
+                    </div>
+                  ))}
                </div>
             </div>
           </div>
-
-          {/* Sidebar Area */}
-          <aside className="w-full xl:w-80 shrink-0 relative z-10">
-             <div className="sticky top-32 bg-[#05080c]/80 backdrop-blur-xl border border-white/10 p-6 rounded-2xl shadow-2xl hover:border-[#39ff14]/30 transition-colors">
-                <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
-                   <h3 className="font-mono text-[11px] font-bold text-white tracking-widest uppercase">SYSTEM FEED</h3>
-                   <span className="w-2 h-2 rounded-full bg-[#39ff14] animate-pulse shadow-[0_0_10px_rgba(57,255,20,0.8)]"></span>
-                </div>
-                
-                <div className="space-y-6">
-                   <div>
-                       <div className="font-mono text-[9px] text-white/40 tracking-[0.2em] mb-1">ACTIVE_SPRINTS</div>
-                       <div className="font-space font-black text-3xl text-[#00f5ff]">34</div>
-                   </div>
-                   <div>
-                       <div className="font-mono text-[9px] text-white/40 tracking-[0.2em] mb-1">VERIFIED_EXPERTS_ONLINE</div>
-                       <div className="flex items-end gap-2">
-                           <div className="font-space font-black text-3xl text-[#39ff14]">12</div>
-                           <div className="font-mono text-[9px] text-[#39ff14] mb-1 tracking-widest">[+3 THIS WEEK]</div>
-                       </div>
-                   </div>
-                   <div>
-                       <div className="font-mono text-[9px] text-white/40 tracking-[0.2em] mb-1">AVG_RISK_REDUCTION_SCORE</div>
-                       <div className="font-space font-black text-3xl text-[#d1b3ff]">94.2%</div>
-                   </div>
-                   
-                   <div className="pt-6 border-t border-white/10">
-                       <div className="font-mono text-[9px] text-white/50 tracking-widest leading-loose">
-                           $ systemctl status onsafe_core<br/>
-                            Status: <span className="text-[#39ff14]">ONLINE</span><br/>
-                            Node Routing: <span className="text-[#00f5ff]">OPTIMISED</span><br/>
-                            Secure Tunnels: <span className="text-[#d1b3ff]">ACTIVE</span><br/>
-                       </div>
-                   </div>
-                </div>
-             </div>
-          </aside>
         </div>
       </main>
 

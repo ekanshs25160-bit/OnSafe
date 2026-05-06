@@ -5,7 +5,7 @@ const ExpertsSection = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/experts")
+    fetch("/api/experts")
       .then((res) => res.json())
       .then((result) => {
         if (result.success) {

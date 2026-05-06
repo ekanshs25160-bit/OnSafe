@@ -5,7 +5,7 @@ const Marketplace = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:3000/api/sprints")
+    fetch("/api/sprints")
       .then((res) => res.json())
       .then((result) => {
         if (result.success) {

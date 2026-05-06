@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import ConsultationModal from "../components/ui/ConsultationModal";
+import ExpertReportModal from "../components/ui/ExpertReportModal";
 
 const ExpertDirectory = () => {
     const filters = ["ALL", "API_SECURITY", "AUTH_AUDITS", "CLOUD_CONFIG", "PEN_TESTING"];
@@ -10,12 +11,13 @@ const ExpertDirectory = () => {
     const [loading, setLoading] = useState(true);
     const [status, setStatus] = useState("INITIALIZING_CONNECTION...");
     const [selectedOperative, setSelectedOperative] = useState(null);
+    const [selectedReportExpert, setSelectedReportExpert] = useState(null);
 
     useEffect(() => {
         const fetchExperts = async () => {
             try {
                 setStatus("REQUESTING_TRUST_DATA...");
-                const response = await fetch('http://localhost:3000/api/experts');
+                const response = await fetch('/api/experts');
                 const result = await response.json();
                 
                 if (result.success) {
@@ -44,7 +46,7 @@ const ExpertDirectory = () => {
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00f5ff]/5 blur-[120px] rounded-full pointer-events-none"></div>
 
                 {/* Status Feed */}
-                <div className="flex items-center gap-4 bg-black/50 border border-white/5 py-2 px-6 rounded-lg mb-12 w-max mx-auto shadow-[0_0_20px_rgba(0,245,255,0.05)]">
+                {/* <div className="flex items-center gap-4 bg-black/50 border border-white/5 py-2 px-6 rounded-lg mb-12 w-max mx-auto shadow-[0_0_20px_rgba(0,245,255,0.05)]">
                     <span className={`w-2 h-2 rounded-full animate-pulse ${status.includes('ERROR') ? 'bg-red-500' : 'bg-[#39ff14]'}`}></span>
                     <span className="font-mono text-[10px] text-white/60 tracking-[0.2em] uppercase">SYSTEM_STATUS: <span className={status.includes('ERROR') ? 'text-red-500' : 'text-[#00f5ff]'}>{status}</span></span>
                     {!loading && (
@@ -53,10 +55,10 @@ const ExpertDirectory = () => {
                             <span className="font-mono text-[10px] text-white/60 tracking-[0.2em] uppercase">EXPERTS_ONLINE: <span className="text-[#00f5ff]">{operatives.length}</span></span>
                         </>
                     )}
-                </div>
+                </div> */}
 
                 <div className="text-center mb-16 relative z-10">
-                    <p className="font-mono text-[10px] text-[#00f5ff] tracking-[0.4em] uppercase mb-3">// EXPERT DIRECTORY</p>
+                    {/* <p className="font-mono text-[10px] text-[#00f5ff] tracking-[0.4em] uppercase mb-3">// EXPERT DIRECTORY</p> */}
                     <h1 className="text-5xl md:text-7xl font-black font-space uppercase text-transparent bg-clip-text bg-gradient-to-r from-white to-white/60 mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.2)]">
                         <span className="text-[#d1b3ff]">Verified Security Experts</span>
                     </h1>
@@ -149,9 +151,12 @@ const ExpertDirectory = () => {
 
                                     {/* Action Buttons */}
                                     <div className="flex gap-4">
-                                        <a href="/dashboard" className="flex-1 text-center bg-transparent border border-[#00f5ff]/40 text-[#00f5ff] font-mono text-[10px] font-bold tracking-[0.2em] py-3 rounded-lg hover:bg-[#00f5ff]/10 hover:border-[#00f5ff] transition-all uppercase whitespace-nowrap">
+                                        <button 
+                                            onClick={() => setSelectedReportExpert(op)}
+                                            className="flex-1 text-center bg-transparent border border-[#00f5ff]/40 text-[#00f5ff] font-mono text-[10px] font-bold tracking-[0.2em] py-3 rounded-lg hover:bg-[#00f5ff]/10 hover:border-[#00f5ff] transition-all uppercase whitespace-nowrap"
+                                        >
                                             ACTIVE REPORTS
-                                        </a>
+                                        </button>
                                         <button
                                             onClick={() => setSelectedOperative(op)}
                                             className="flex-1 bg-white/5 border border-white/10 text-white font-mono text-[10px] font-bold tracking-[0.2em] py-3 rounded-lg hover:bg-[#d1b3ff] hover:text-black hover:border-[#d1b3ff] transition-all uppercase whitespace-nowrap"
@@ -180,6 +185,13 @@ const ExpertDirectory = () => {
                 <ConsultationModal
                     operative={selectedOperative}
                     onClose={() => setSelectedOperative(null)}
+                />
+            )}
+
+            {selectedReportExpert && (
+                <ExpertReportModal
+                    expert={selectedReportExpert}
+                    onClose={() => setSelectedReportExpert(null)}
                 />
             )}
             

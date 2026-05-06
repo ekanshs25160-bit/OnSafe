@@ -23,6 +23,7 @@ const experts = require("./data/experts.json");
 const sprints = require("./data/sprints.json");
 const vulnerabilities = require("./data/vulnerabilities.json");
 const projectStatus = require("./data/project_status.json");
+const expertReports = require("./data/expert_reports.json");
 
 // ─── App setup ─────────────────────────────────────────────────────────────
 const app = express();
@@ -33,12 +34,17 @@ const PORT = process.env.PORT || 3000;
 /**
  * CORS — allow any localhost origin so the Vite dev server (typically :5173)
  * can fetch freely without browser policy errors.
+ * In production (Vercel), allow the deployed frontend domain and all origins.
  */
 app.use(
   cors({
     origin: (origin, callback) => {
       // Allow requests with no origin (curl, Postman) and any localhost port
       if (!origin || /^http:\/\/localhost(:\d+)?$/.test(origin)) {
+        return callback(null, true);
+      }
+      // Allow any HTTPS origin in production (covers Vercel preview & prod domains)
+      if (/^https:\/\//.test(origin)) {
         return callback(null, true);
       }
       callback(new Error(`CORS policy: Origin ${origin} not allowed`));
@@ -170,16 +176,41 @@ app.get("/api/sprints/:id", (req, res) => {
 });
 
 /**
+ * GET /api/experts/:id/report
+ * Returns the standardized security report metadata for a specific expert.
+ */
+app.get("/api/experts/:id/report", (req, res) => {
+  const expertId = req.params.id.toUpperCase();
+  const report = expertReports[expertId];
+
+  if (!report) {
+    return res.status(404).json({
+      success: false,
+      error: `No report found for expert ID "${expertId}".`,
+    });
+  }
+
+  // Also include the findings count from the vulnerabilities table to ensure consistency
+  const expertFindings = vulnerabilities.filter(v => v.assigned_expert_id === expertId);
+  
+  respond(res, {
+    ...report,
+    findings: expertFindings
+  });
+});
+
+/**
  * GET /api/dashboard/vulnerabilities
  * Returns all simulated security findings for the active project.
  * Optional query params:
  *   ?severity=Critical|High|Medium|Low   → filter by severity
  *   ?status=Open|In-Progress|Fixed        → filter by remediation status
+ *   ?expert_id=EXP-001                    → filter by assigned expert
  */
 app.get("/api/dashboard/vulnerabilities", (req, res) => {
   let result = [...vulnerabilities];
 
-  const { severity, status } = req.query;
+  const { severity, status, expert_id } = req.query;
 
   if (severity) {
     result = result.filter(
@@ -190,6 +221,12 @@ app.get("/api/dashboard/vulnerabilities", (req, res) => {
   if (status) {
     result = result.filter(
       (v) => v.status.toLowerCase() === status.toLowerCase()
+    );
+  }
+
+  if (expert_id) {
+    result = result.filter(
+      (v) => v.assigned_expert_id.toLowerCase() === expert_id.toLowerCase()
     );
   }
 
@@ -209,7 +246,7 @@ app.get("/api/dashboard/vulnerabilities", (req, res) => {
     },
   };
 
-  respond(res, result, { ...summary, filters_applied: { severity: severity ?? null, status: status ?? null } });
+  respond(res, result, { ...summary, filters_applied: { severity: severity ?? null, status: status ?? null, expert_id: expert_id ?? null } });
 });
 
 /**
@@ -248,6 +285,7 @@ app.use((req, res) => {
       "GET /health",
       "GET /api/experts",
       "GET /api/experts/:id",
+      "GET /api/experts/:id/report",
       "GET /api/sprints",
       "GET /api/sprints/:id",
       "GET /api/dashboard/vulnerabilities",
@@ -263,24 +301,30 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ success: false, error: "Internal server error." });
 });
 
-// ─── Start ─────────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log("");
-  console.log("  ┌─────────────────────────────────────────────┐");
-  console.log("  │        OnSafe Mock API Server                │");
-  console.log("  │  Running on  →  http://localhost:" + PORT + "        │");
-  console.log("  │  500ms latency simulation  →  ENABLED        │");
-  console.log("  │  CORS         →  localhost:* allowed         │");
-  console.log("  └─────────────────────────────────────────────┘");
-  console.log("");
-  console.log("  Available endpoints:");
-  console.log("    GET  /health");
-  console.log("    GET  /api/experts");
-  console.log("    GET  /api/experts/:id");
-  console.log("    GET  /api/sprints");
-  console.log("    GET  /api/sprints/:id");
-  console.log("    GET  /api/dashboard/vulnerabilities");
-  console.log("    GET  /api/dashboard/vulnerabilities/:id");
-  console.log("    GET  /api/project/status");
-  console.log("");
-});
+// ─── Export for serverless (Vercel) ─────────────────────────────────────────
+export default app;
+
+// ─── Start (only when running directly, not in serverless) ───────────────────
+if (!process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log("");
+    console.log("  ┌─────────────────────────────────────────────┐");
+    console.log("  │        OnSafe Mock API Server                │");
+    console.log("  │  Running on  →  http://localhost:" + PORT + "        │");
+    console.log("  │  500ms latency simulation  →  ENABLED        │");
+    console.log("  │  CORS         →  localhost:* allowed         │");
+    console.log("  └─────────────────────────────────────────────┘");
+    console.log("");
+    console.log("  Available endpoints:");
+    console.log("    GET  /health");
+    console.log("    GET  /api/experts");
+    console.log("    GET  /api/experts/:id");
+    console.log("    GET  /api/experts/:id/report");
+    console.log("    GET  /api/sprints");
+    console.log("    GET  /api/sprints/:id");
+    console.log("    GET  /api/dashboard/vulnerabilities");
+    console.log("    GET  /api/dashboard/vulnerabilities/:id");
+    console.log("    GET  /api/project/status");
+    console.log("");
+  });
+}

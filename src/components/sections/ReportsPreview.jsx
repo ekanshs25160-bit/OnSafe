@@ -5,7 +5,7 @@ const ReportsPreview = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch("http://localhost:3000/api/dashboard/vulnerabilities")
+        fetch("/api/dashboard/vulnerabilities")
             .then(res => res.json())
             .then(result => {
                 if (result.success) {
