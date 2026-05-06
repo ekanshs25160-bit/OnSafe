@@ -1,23 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import { vulnerabilities as vulnData } from '../../data/vulnerabilities';
 
 const ReportsPreview = () => {
-    const [vulnerabilities, setVulnerabilities] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        fetch("/api/dashboard/vulnerabilities")
-            .then(res => res.json())
-            .then(result => {
-                if (result.success) {
-                    setVulnerabilities(result.data.slice(0, 2)); // Just show first 2 for preview
-                }
-                setLoading(false);
-            })
-            .catch(err => {
-                console.error("Error fetching vulnerabilities:", err);
-                setLoading(false);
-            });
-    }, []);
+    const [vulnerabilities] = useState(vulnData.slice(0, 2));
+    const loading = false;
 
     return (
         <section id="dashboard" className="py-24 bg-[#0b111a] relative border-t border-white/5 overflow-hidden">

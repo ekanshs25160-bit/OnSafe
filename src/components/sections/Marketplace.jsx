@@ -1,23 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { sprints as sprintData } from "../../data/sprints";
 
 const Marketplace = () => {
-  const [sprints, setSprints] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("/api/sprints")
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.success) {
-          setSprints(result.data);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching sprints:", err);
-        setLoading(false);
-      });
-  }, []);
+  const [sprints] = useState(sprintData);
+  const loading = false;
 
   return (
     <section
@@ -53,7 +39,7 @@ const Marketplace = () => {
                   </span>
                 </div>
                 <h4 className="text-2xl font-bold text-white mb-2">
-                  {pkg.name}
+                  {pkg.tier_name}
                 </h4>
                 <div className={`text-3xl font-black mb-6 ${
                   pkg.tier_name === 'Advanced' ? 'text-[#d1b3ff]' : 

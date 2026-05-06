@@ -25,7 +25,7 @@ export default function Terminal({ onComplete, customLines }) {
 
   useEffect(() => {
     if (currentLineIndex >= terminalLines.length) {
-      const timeout = setTimeout(() => setShowButton(true), 1000);
+      const timeout = setTimeout(() => setShowButton(true), 400);
       return () => clearTimeout(timeout);
     }
 

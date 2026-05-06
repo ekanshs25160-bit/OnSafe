@@ -1,23 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { experts as expertData } from "../../data/experts";
 
 const ExpertsSection = () => {
-  const [operatives, setOperatives] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch("/api/experts")
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.success) {
-          setOperatives(result.data.slice(0, 5));
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching experts:", err);
-        setLoading(false);
-      });
-  }, []);
+  const [operatives] = useState(expertData.slice(0, 5));
+  const loading = false;
 
   return (
     <section className="team-section py-24 px-[10%] bg-bg-base overflow-hidden border-t border-white/5">
