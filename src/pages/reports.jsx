@@ -288,7 +288,13 @@ const Dashboard = () => {
         {/* Action Button - More Compact */}
         <div className="flex flex-col items-center justify-center py-8 bg-white/[0.02] border border-white/5 rounded-3xl backdrop-blur-md max-w-4xl mx-auto">
             <h4 className="text-[#00f5ff] font-mono text-[9px] tracking-[0.4em] uppercase mb-4 font-bold">READY FOR REMEDIATION?</h4>
-            <button className="group relative">
+            <button 
+                onClick={() => {
+                    window.history.pushState({}, '', '/experts');
+                    window.dispatchEvent(new PopStateEvent('popstate'));
+                }}
+                className="group relative"
+            >
                 <div className="absolute -inset-1 bg-gradient-to-r from-[#00f5ff] to-[#d1b3ff] rounded-xl blur opacity-30 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
                 <div className="relative bg-[#d1b3ff] text-black font-mono font-black px-12 py-4 rounded-xl tracking-[0.2em] text-xs hover:scale-[1.02] transition-all active:scale-95 uppercase shadow-[0_15px_40px_rgba(209,179,255,0.2)]">
                     HIRE AN EXPERT TO FIX THESE ISSUES
