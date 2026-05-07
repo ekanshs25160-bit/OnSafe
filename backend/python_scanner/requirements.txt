@@ -2,3 +2,4 @@ flask
 requests
 python-nmap
 flask-cors
+gunicorn
