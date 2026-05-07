@@ -18,13 +18,17 @@ const ExpertDirectory = () => {
         const fetchExperts = async () => {
             try {
                 setStatus("REQUESTING_TRUST_DATA...");
-                // Simulate delay
-                await new Promise(resolve => setTimeout(resolve, 600));
+                const response = await fetch('http://localhost:3001/api/experts');
+                if (!response.ok) throw new Error('NETWORK_FAILURE');
+                
+                const data = await response.json();
                 setStatus("HANDSHAKE_COMPLETE. DATA_RECOVERED.");
-                setOperatives(experts);
+                setOperatives(data);
             } catch (error) {
                 console.error('Error fetching experts:', error);
                 setStatus("ERROR: CONNECTION_FAILED.");
+                // Fallback to local data if server is down (optional, but good for UX)
+                // setOperatives(experts);
             } finally {
                 setTimeout(() => setLoading(false), 800);
             }
@@ -32,6 +36,7 @@ const ExpertDirectory = () => {
 
         fetchExperts();
     }, []);
+
 
     return (
         <div className="bg-[#0b111a] min-h-screen text-[#e6edf3] font-inter overflow-hidden selection:bg-[#00f5ff] selection:text-black">

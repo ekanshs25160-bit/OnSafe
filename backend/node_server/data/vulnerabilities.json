@@ -1,0 +1,93 @@
+[
+  {
+    "vuln_id": "V-API-101",
+    "title": "Broken Object Level Authorization (BOLA)",
+    "severity": "Critical",
+    "category": "API Security",
+    "description": "An attacker can access sensitive user data by simply changing an ID in the URL. This could lead to a massive data breach of your customer records.",
+    "remediation_guide": "Implement strict ownership checks in the API controller. Verify that the authenticated user has permission to access the specific resource ID requested.",
+    "assigned_expert_id": "EXP-001",
+    "timestamp": "2024-05-20T10:30:00Z",
+    "legal_safeguard_id": "NDA-SAFE-2024-001",
+    "status": "Open",
+    "references": ["OWASP API1:2023"]
+  },
+  {
+    "vuln_id": "V-AUTH-102",
+    "title": "JWT Secret Key Weakness",
+    "severity": "High",
+    "category": "Authentication",
+    "description": "Your login tokens are signed with a weak secret that can be cracked. This allows attackers to forge administrative tokens and take over any account.",
+    "remediation_guide": "Rotate your JWT secret immediately. Use a cryptographically strong 256-bit key stored in a secure environment variable (AWS Secrets Manager).",
+    "assigned_expert_id": "EXP-001",
+    "timestamp": "2024-05-21T14:45:00Z",
+    "legal_safeguard_id": "NDA-SAFE-2024-001",
+    "status": "In-Progress",
+    "references": ["OWASP API2:2023"]
+  },
+  {
+    "vuln_id": "V-CLOUD-201",
+    "title": "Publicly Accessible S3 Bucket",
+    "severity": "Critical",
+    "category": "Cloud Security",
+    "description": "Your internal documentation and database backups are exposed to the public internet. Anyone with the URL can download your sensitive company data.",
+    "remediation_guide": "Enable 'Block Public Access' on the S3 bucket. Update bucket policies to only allow access from your specific IAM roles or VPC endpoints.",
+    "assigned_expert_id": "EXP-002",
+    "timestamp": "2024-05-22T09:15:00Z",
+    "legal_safeguard_id": "NDA-SAFE-2024-002",
+    "status": "Open",
+    "references": ["CIS AWS Foundations 2.1.1"]
+  },
+  {
+    "vuln_id": "V-IAM-301",
+    "title": "Overly Permissive IAM Policy",
+    "severity": "Medium",
+    "category": "IAM",
+    "description": "Developer roles have full administrative access. If a developer's credentials are stolen, the attacker has 'keys to the kingdom' to delete your entire infrastructure.",
+    "remediation_guide": "Apply the Principle of Least Privilege. Restrict developer roles to only the services they need (e.g. read-only for production logs).",
+    "assigned_expert_id": "EXP-003",
+    "timestamp": "2024-05-23T11:00:00Z",
+    "legal_safeguard_id": "NDA-SAFE-2024-003",
+    "status": "Fixed",
+    "references": ["AWS Best Practices"]
+  },
+  {
+    "vuln_id": "V-APP-401",
+    "title": "Vulnerable Dependency (Log4j)",
+    "severity": "High",
+    "category": "Application Security",
+    "description": "Your application uses an outdated library with a known Remote Code Execution flaw. Attackers can execute arbitrary code on your servers.",
+    "remediation_guide": "Update the 'logging-library' to version 2.17.1 or higher. Run 'npm audit fix' or 'mvn dependency:tree' to verify the update.",
+    "assigned_expert_id": "EXP-004",
+    "timestamp": "2024-05-24T16:20:00Z",
+    "legal_safeguard_id": "NDA-SAFE-2024-004",
+    "status": "Open",
+    "references": ["CVE-2021-44228"]
+  },
+  {
+    "vuln_id": "V-DATA-601",
+    "title": "Unencrypted Personal Data at Rest",
+    "severity": "High",
+    "category": "Data Security",
+    "description": "User emails and physical addresses are stored in plain text. A database leak would result in immediate GDPR/CCPA compliance violations and fines.",
+    "remediation_guide": "Implement AES-256 encryption at the application layer before saving to the database. Ensure encryption keys are rotated annually.",
+    "assigned_expert_id": "EXP-006",
+    "timestamp": "2024-05-25T13:10:00Z",
+    "legal_safeguard_id": "NDA-SAFE-2024-006",
+    "status": "Open",
+    "references": ["GDPR Article 32"]
+  },
+  {
+    "vuln_id": "V-AUTH-103",
+    "title": "Missing Rate Limiting on Login",
+    "severity": "Medium",
+    "category": "Authentication",
+    "description": "Attackers can attempt millions of password guesses without being blocked. This makes your user accounts highly susceptible to brute-force attacks.",
+    "remediation_guide": "Implement rate limiting (e.g. express-rate-limit) on all auth endpoints. Block IPs after 5 failed attempts within 10 minutes.",
+    "assigned_expert_id": "EXP-001",
+    "timestamp": "2024-05-26T08:50:00Z",
+    "legal_safeguard_id": "NDA-SAFE-2024-001",
+    "status": "Open",
+    "references": ["OWASP ASVS 4.0.3"]
+  }
+]

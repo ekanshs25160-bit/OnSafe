@@ -8,13 +8,24 @@ const SecuritySprintMarketplace = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate network delay for that "tactical" feel
-    const timer = setTimeout(() => {
-      setSprintPackages(sprints);
-      setLoading(false);
-    }, 500);
-    return () => clearTimeout(timer);
+    const fetchSprints = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/sprints');
+        if (!response.ok) throw new Error('NETWORK_FAILURE');
+        const data = await response.json();
+        setSprintPackages(data);
+      } catch (error) {
+        console.error('Error fetching sprints:', error);
+        // Fallback to local data if needed
+        // setSprintPackages(sprints);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchSprints();
   }, []);
+
 
   const workflowSteps = [
     { step: "01", icon: "hub", title: "Select Tier", desc: "Choose a sprint package that fits your current dev stage and risk profile." },

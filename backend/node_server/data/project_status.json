@@ -1,0 +1,87 @@
+{
+  "project_id": "PROJ-2024-0047",
+  "project_name": "PayFlow MVP",
+  "startup_name": "PayFlow Technologies Inc.",
+  "founder_name": "Jordan Ellis",
+  "global_health_score": 90,
+  "health_grade": "A",
+  "health_label": "Needs Attention",
+  "nda_signed": true,
+  "nda_signed_date": "2026-04-22",
+  "assigned_expert_id": "EXP-001",
+  "assigned_expert_name": "Aisha Mercer",
+  "sprint_id": "SPR-ADVANCED",
+  "sprint_tier": "Advanced",
+  "sprint_progress": 65,
+  "sprint_status": "In-Progress",
+  "sprint_started_date": "2026-04-28",
+  "sprint_estimated_completion": "2026-05-08",
+  "vulnerability_summary": {
+    "total": 8,
+    "critical": 3,
+    "high": 3,
+    "medium": 1,
+    "low": 1,
+    "open": 4,
+    "in_progress": 2,
+    "fixed": 2
+  },
+  "risk_areas": [
+    {
+      "area": "Authentication & Access Control",
+      "risk_level": "Critical",
+      "score": 3
+    },
+    {
+      "area": "Data Exposure",
+      "risk_level": "High",
+      "score": 5
+    },
+    {
+      "area": "Dependency Security",
+      "risk_level": "High",
+      "score": 4
+    },
+    {
+      "area": "API Security",
+      "risk_level": "Medium",
+      "score": 6
+    },
+    {
+      "area": "Cloud Configuration",
+      "risk_level": "Low",
+      "score": 8
+    },
+    {
+      "area": "Security Headers",
+      "risk_level": "Low",
+      "score": 9
+    }
+  ],
+  "recent_activity": [
+    {
+      "timestamp": "2026-05-05T10:30:00Z",
+      "message": "V-107 (Security Headers) marked as Fixed by Aisha Mercer"
+    },
+    {
+      "timestamp": "2026-05-05T09:15:00Z",
+      "message": "Remediation guide for V-102 (SQL Injection) updated"
+    },
+    {
+      "timestamp": "2026-05-04T16:45:00Z",
+      "message": "V-103 (Hardcoded JWT Secret) confirmed Fixed — re-test passed"
+    },
+    {
+      "timestamp": "2026-05-03T11:00:00Z",
+      "message": "New vulnerability V-106 (Lodash RCE) discovered during dependency audit"
+    },
+    {
+      "timestamp": "2026-05-02T14:30:00Z",
+      "message": "V-104 (Rate Limiting) assigned to founder for remediation"
+    }
+  ],
+  "next_milestone": "API Penetration Test Complete",
+  "next_milestone_date": "2026-05-07",
+  "trust_certificate_eligible": false,
+  "trust_certificate_eligible_after_fixes": 4
+}

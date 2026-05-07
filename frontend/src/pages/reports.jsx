@@ -25,15 +25,15 @@ const Dashboard = () => {
     if (scanState === "true") {
       setIsScanning(true);
       
-      // Attempt actual scan from Python backend (using 127.0.0.1 to avoid IPv6 resolution issues)
-      fetch(`http://127.0.0.1:5000/scan?url=${encodeURIComponent(url)}`, {
-        method: 'GET',
-        mode: 'cors',
+      // Attempt actual scan from the new Express backend
+      fetch(`http://localhost:3001/api/scan`, {
+        method: 'POST',
         headers: {
+          'Content-Type': 'application/json',
           'Accept': 'application/json',
         },
+        body: JSON.stringify({ url: url })
       })
-
         .then(res => {
           if (!res.ok) throw new Error(`Backend Error: ${res.status}`);
           return res.json();
@@ -45,14 +45,13 @@ const Dashboard = () => {
         .catch(err => {
           console.error("Backend scan failed", err);
           
-          // Diagnostic: Check if backend is reachable at all
-          fetch('http://127.0.0.1:5000/ping')
-
+          // Diagnostic: Check if Node backend is reachable at all
+          fetch('http://localhost:3001/api/dashboard/summary')
             .then(() => {
-              setBackendError("BACKEND_ONLINE_BUT_SCAN_FAILED: The scanner encountered an issue. Check server logs.");
+              setBackendError("BACKEND_ONLINE_BUT_SCAN_FAILED: The Node server is up but the scan encountered an issue.");
             })
             .catch(() => {
-              setBackendError("CRITICAL_ERROR: SECURITY_BACKEND_OFFLINE. Handshake failed.");
+              setBackendError("CRITICAL_ERROR: ONSAFE_BACKEND_OFFLINE. Handshake failed.");
             });
         });
     }
@@ -137,8 +136,10 @@ const Dashboard = () => {
     { text: "> [SEARCHING_VULNERABILITIES...]", speed: 30, delay: 400 },
     { text: "> PROBING COMMON PORTS...", speed: 25, delay: 300 },
     { text: "> [CALCULATING_HEALTH_SCORE...]", speed: 25, delay: 400 },
+    { text: "> SYNCING_WITH_REMOTE_SERVER...", speed: 30, delay: 600 },
     { text: "> SCAN_COMPLETE. GENERATING REPORT.", speed: 20, delay: 200 },
   ];
+
 
 
   return (

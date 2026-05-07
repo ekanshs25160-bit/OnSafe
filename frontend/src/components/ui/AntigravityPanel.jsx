@@ -29,15 +29,18 @@ const AntigravityPanel = ({ expertId, disableMotion = false }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // Simulate network delay
-        await new Promise(resolve => setTimeout(resolve, 600));
-
         if (expertId) {
+          // Note: In a real app, we'd have an endpoint for specific experts
+          // For now, we'll simulate the expert reports or fetch from general pool
           setData(expertReports[expertId] || null);
           setVulns(vulnerabilities.filter(v => v.assigned_expert_id === expertId).slice(0, 3));
         } else {
-          setData(projectStatus);
-          setVulns(vulnerabilities.slice(0, 3));
+          const response = await fetch('http://localhost:3001/api/dashboard/summary');
+          if (!response.ok) throw new Error('NETWORK_FAILURE');
+          
+          const summary = await response.json();
+          setData(summary.project_status);
+          setVulns(summary.latest_vulnerabilities.slice(0, 3));
         }
       } catch (err) {
         console.error("Antigravity Panel Fetch Error:", err);
@@ -48,6 +51,7 @@ const AntigravityPanel = ({ expertId, disableMotion = false }) => {
 
     fetchData();
   }, [expertId]);
+
 
   const handleMouseMove = (e) => {
     if (!containerRef.current) return;
