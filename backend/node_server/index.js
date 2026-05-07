@@ -7,10 +7,10 @@ const { exec } = require('child_process');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-const PYTHON_SCANNER_URL = process.env.PYTHON_SCANNER_URL || "http://127.0.0.1:5000";
+const PYTHON_SCANNER_URL = process.env.PYTHON_SCANNER_URL || "https://onsafe-python.onrender.com";
 
 app.use(cors({
-  origin: ["https://onsafe-frontend.onrender.com", "http://localhost:5173"] 
+  origin: ["https://on-safe.vercel.app", "http://localhost:5173"] 
 }));
 app.use(express.json());
 
