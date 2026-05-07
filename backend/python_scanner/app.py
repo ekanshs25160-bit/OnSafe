@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Allow production and development origins
 CORS(app, resources={r"/*": {"origins": [
     "https://onsafe-node.onrender.com", 
-    "https://onsafe-frontend.onrender.com",
+    "https://on-safe.vercel.app",
     "http://localhost:5173",
     "http://localhost:3001"
 ]}})
