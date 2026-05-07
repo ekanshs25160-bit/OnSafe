@@ -10,6 +10,10 @@ const Dashboard = () => {
   const [showNotification, setShowNotification] = useState(false);
   const [scanResult, setScanResult] = useState(null);
   const [targetUrl, setTargetUrl] = useState("");
+  const [fetchedResult, setFetchedResult] = useState(null);
+  const [backendError, setBackendError] = useState(null);
+
+
 
   useEffect(() => {
     const url = localStorage.getItem("onSafe_scanUrl") || "https://example.com";
@@ -20,13 +24,45 @@ const Dashboard = () => {
 
     if (scanState === "true") {
       setIsScanning(true);
-    } else if (savedResult) {
+      
+      // Attempt actual scan from Python backend (using 127.0.0.1 to avoid IPv6 resolution issues)
+      fetch(`http://127.0.0.1:5000/scan?url=${encodeURIComponent(url)}`, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+          'Accept': 'application/json',
+        },
+      })
+
+        .then(res => {
+          if (!res.ok) throw new Error(`Backend Error: ${res.status}`);
+          return res.json();
+        })
+        .then(data => {
+          setFetchedResult(data);
+          setBackendError(null);
+        })
+        .catch(err => {
+          console.error("Backend scan failed", err);
+          
+          // Diagnostic: Check if backend is reachable at all
+          fetch('http://127.0.0.1:5000/ping')
+
+            .then(() => {
+              setBackendError("BACKEND_ONLINE_BUT_SCAN_FAILED: The scanner encountered an issue. Check server logs.");
+            })
+            .catch(() => {
+              setBackendError("CRITICAL_ERROR: SECURITY_BACKEND_OFFLINE. Handshake failed.");
+            });
+        });
+    }
+ else if (savedResult) {
       const result = JSON.parse(savedResult);
       setScanResult(result);
       setLoading(false);
       if (result.score < 70) setShowNotification(true);
     } else {
-      // Default initial scan result (simulated from scan_tool logic)
+      // Default initial scan result
       const defaultResult = {
         score: 61,
         issues: [
@@ -56,8 +92,13 @@ const Dashboard = () => {
     setIsScanning(false);
     localStorage.setItem("onSafe_isScanning", "false");
 
-    // Simulate scan result based on scan_tool logic
-    const result = {
+    if (backendError) {
+      setScanResult(null);
+      return;
+    }
+
+    // Use fetched result from backend if available, otherwise fallback to simulation
+    const result = fetchedResult || {
       score: 61,
       issues: [
         "Website is not using HTTPS",
@@ -87,6 +128,7 @@ const Dashboard = () => {
     }
   };
 
+
   const scanLines = [
     { text: `> INITIATING SCAN FOR: ${targetUrl}`, speed: 20, delay: 200 },
     { text: "> [BOOTING_SCANNER...]", speed: 25, delay: 200 },
@@ -97,6 +139,7 @@ const Dashboard = () => {
     { text: "> [CALCULATING_HEALTH_SCORE...]", speed: 25, delay: 400 },
     { text: "> SCAN_COMPLETE. GENERATING REPORT.", speed: 20, delay: 200 },
   ];
+
 
   return (
     <div className="bg-[#0b111a] min-h-screen text-[#e6edf3] font-inter selection:bg-[#00f5ff] selection:text-black pt-28">
@@ -151,8 +194,41 @@ const Dashboard = () => {
           )}
         </AnimatePresence>
 
-        {/* Header Section */}
-        <div className="text-center mb-12">
+        {/* Backend Connection Error */}
+        {backendError && (
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-red-500/5 border border-red-500/20 p-12 rounded-3xl text-center mb-20 backdrop-blur-3xl relative overflow-hidden mt-10"
+          >
+             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(239,68,68,0.05),transparent)] pointer-events-none"></div>
+             <span className="material-symbols-outlined text-red-500 text-6xl mb-6 drop-shadow-[0_0_15px_rgba(239,68,68,0.5)]">settings_suggest</span>
+             <h2 className="text-white font-black font-space text-3xl uppercase mb-4 tracking-tighter">Backend_Connection_Failed</h2>
+             <p className="text-white/40 font-mono text-[10px] uppercase tracking-[0.3em] max-w-md mx-auto mb-8 leading-loose">
+               The security protocol could not establish a secure handshake with the scanning node. Please ensure the Python backend is active and reachable on port 5000.
+             </p>
+             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button 
+                  onClick={() => window.location.reload()}
+                  className="px-8 py-3 bg-red-500 text-white font-mono text-[10px] font-black tracking-widest uppercase hover:bg-red-600 transition-all rounded-xl shadow-[0_10px_20px_rgba(239,68,68,0.2)]"
+                >
+                  RETRY_CONNECTION
+                </button>
+                <button 
+                  onClick={() => window.location.href = '/'}
+                  className="px-8 py-3 bg-white/5 border border-white/10 text-white/60 font-mono text-[10px] font-black tracking-widest uppercase hover:bg-white/10 transition-all rounded-xl"
+                >
+                  RETURN_TO_BASE
+                </button>
+             </div>
+          </motion.div>
+        )}
+
+        {/* Scan Results - Only show if backend is working and result exists */}
+        {!backendError && scanResult && (
+          <>
+            {/* Header Section */}
+            <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
             <span className="w-2.5 h-2.5 bg-[#00f5ff] rounded-full animate-pulse shadow-[0_0_12px_rgba(0,245,255,0.8)]"></span>
             <h2 className="font-mono text-[10px] text-[#00f5ff] tracking-[0.4em] uppercase">
@@ -444,8 +520,11 @@ const Dashboard = () => {
           <p className="mt-6 text-white/30 font-mono text-[8px] uppercase tracking-[0.4em]">
             // SECURE_YOUR_STARTUP_NOW
           </p>
-        </div>
-      </motion.main>
+          </div>
+        </>
+      )}
+    </motion.main>
+
 
       <Footer />
 
