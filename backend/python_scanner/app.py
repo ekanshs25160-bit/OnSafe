@@ -4,8 +4,14 @@ from scanner import scan_website
 
 app = Flask(__name__)
 
-# Allow your specific frontend origin and support common headers
-CORS(app, resources={r"/*": {"origins": "http://localhost:5173"}})
+# Allow production and development origins
+CORS(app, resources={r"/*": {"origins": [
+    "https://onsafe-node.onrender.com", 
+    "https://onsafe-frontend.onrender.com",
+    "http://localhost:5173",
+    "http://localhost:3001"
+]}})
+
 
 @app.route("/ping", methods=["GET"])
 def ping():

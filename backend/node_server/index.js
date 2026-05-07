@@ -7,7 +7,11 @@ const { exec } = require('child_process');
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+const PYTHON_SCANNER_URL = process.env.PYTHON_SCANNER_URL || "http://127.0.0.1:5000";
+
+app.use(cors({
+  origin: ["https://onsafe-frontend.onrender.com", "http://localhost:5173"] 
+}));
 app.use(express.json());
 
 // Helper to read JSON data
@@ -76,7 +80,7 @@ app.post('/api/scan', (req, res) => {
   
   const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
 
-  fetch(`http://127.0.0.1:5000/scan?url=${encodeURIComponent(url)}`)
+  fetch(`${PYTHON_SCANNER_URL}/scan?url=${encodeURIComponent(url)}`)
     .then(response => response.json())
     .then(scanResult => {
       // Update global_health_score in project_status.json

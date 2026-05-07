@@ -18,7 +18,8 @@ const ExpertDirectory = () => {
         const fetchExperts = async () => {
             try {
                 setStatus("REQUESTING_TRUST_DATA...");
-                const response = await fetch('http://localhost:3001/api/experts');
+                const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+                const response = await fetch(`${API_URL}/api/experts`);
                 if (!response.ok) throw new Error('NETWORK_FAILURE');
                 
                 const data = await response.json();

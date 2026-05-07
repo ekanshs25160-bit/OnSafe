@@ -26,7 +26,8 @@ const Dashboard = () => {
       setIsScanning(true);
       
       // Attempt actual scan from the new Express backend
-      fetch(`http://localhost:3001/api/scan`, {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      fetch(`${API_URL}/api/scan`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,7 +47,8 @@ const Dashboard = () => {
           console.error("Backend scan failed", err);
           
           // Diagnostic: Check if Node backend is reachable at all
-          fetch('http://localhost:3001/api/dashboard/summary')
+          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+          fetch(`${API_URL}/api/dashboard/summary`)
             .then(() => {
               setBackendError("BACKEND_ONLINE_BUT_SCAN_FAILED: The Node server is up but the scan encountered an issue.");
             })

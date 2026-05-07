@@ -35,7 +35,8 @@ const AntigravityPanel = ({ expertId, disableMotion = false }) => {
           setData(expertReports[expertId] || null);
           setVulns(vulnerabilities.filter(v => v.assigned_expert_id === expertId).slice(0, 3));
         } else {
-          const response = await fetch('http://localhost:3001/api/dashboard/summary');
+          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+          const response = await fetch(`${API_URL}/api/dashboard/summary`);
           if (!response.ok) throw new Error('NETWORK_FAILURE');
           
           const summary = await response.json();
