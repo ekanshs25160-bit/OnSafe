@@ -86,12 +86,22 @@ app.post('/api/scan', (req, res) => {
   // Let's assume the user wants the Node server to be the primary orchestrator.
   
   // Strategy: Call the existing Flask API at 127.0.0.1:5000/scan
-  // We use fetch (Node 18+) or a simple http request.
+  // We use fetch (Node 18+)
   
-  const fetch = (...args) => import('node-fetch').then(({default: fetch}) => fetch(...args));
+  const fetchFn = global.fetch;
 
-  fetch(`${PYTHON_SCANNER_URL}/scan?url=${encodeURIComponent(url)}`)
-    .then(response => response.json())
+  fetchFn(`${PYTHON_SCANNER_URL}/scan?url=${encodeURIComponent(url)}`)
+    .then(async response => {
+      const text = await response.text();
+      if (!response.ok) {
+         throw new Error(`Python API returned ${response.status}: ${text}`);
+      }
+      try {
+         return JSON.parse(text);
+      } catch(e) {
+         throw new Error(`Failed to parse JSON. Response: ${text.substring(0, 100)}`);
+      }
+    })
     .then(scanResult => {
       // Update global_health_score in project_status.json
       const projectStatus = getData('project_status');
