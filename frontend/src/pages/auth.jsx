@@ -13,7 +13,8 @@ const AuthenticationPage = () => {
     e.preventDefault();
     if (email === 'founder@startup.io' && password === 'admin123') {
       localStorage.setItem('onSafe_user', JSON.stringify({ role: 'FOUNDER', email }));
-      window.location.href = '/dashboard';
+      window.history.pushState({}, '', '/dashboard');
+      window.dispatchEvent(new Event('popstate'));
     } else {
       setAuthError('Invalid ACCESS_ID or SECURE_KEY. Try founder@startup.io / admin123');
     }
@@ -23,7 +24,8 @@ const AuthenticationPage = () => {
     e.preventDefault();
     if (email === 'operative@onsafe.io') {
       localStorage.setItem('onSafe_user', JSON.stringify({ role: 'OPERATIVE', email }));
-      window.location.href = '/dashboard';
+      window.history.pushState({}, '', '/dashboard');
+      window.dispatchEvent(new Event('popstate'));
     } else {
       setAuthError('Unrecognized Operative COMM_LINK. Try operative@onsafe.io');
     }
