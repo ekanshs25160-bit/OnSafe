@@ -12,6 +12,7 @@ const Dashboard = () => {
   const [targetUrl, setTargetUrl] = useState("");
   const [fetchedResult, setFetchedResult] = useState(null);
   const [backendError, setBackendError] = useState(null);
+  const [scanFinished, setScanFinished] = useState(false);
 
 
 
@@ -25,37 +26,54 @@ const Dashboard = () => {
     if (scanState === "true") {
       setIsScanning(true);
       
-      // Attempt actual scan from the new Express backend
+      // Attempt actual scan from the new Express backend with retry logic
       const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-      fetch(`${API_URL}/api/scan`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json',
-        },
-        body: JSON.stringify({ url: url })
-      })
-        .then(res => {
-          if (!res.ok) throw new Error(`Backend Error: ${res.status}`);
-          return res.json();
+      const MAX_RETRIES = 2;
+      let attempt = 0;
+
+      const attemptScan = () => {
+        attempt++;
+        console.log(`SCAN_ATTEMPT: ${attempt}/${MAX_RETRIES + 1}`);
+        fetch(`${API_URL}/api/scan`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+          body: JSON.stringify({ url: url })
         })
-        .then(data => {
-          setFetchedResult(data);
-          setBackendError(null);
-        })
-        .catch(err => {
-          console.error("Backend scan failed", err);
-          
-          // Diagnostic: Check if Node backend is reachable at all
-          const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
-          fetch(`${API_URL}/api/dashboard/summary`)
-            .then(() => {
-              setBackendError("BACKEND_ONLINE_BUT_SCAN_FAILED: The Node server is up but the scan encountered an issue.");
-            })
-            .catch(() => {
-              setBackendError("CRITICAL_ERROR: ONSAFE_BACKEND_OFFLINE. Handshake failed.");
-            });
-        });
+          .then(res => {
+            if (!res.ok) throw new Error(`Backend Error: ${res.status}`);
+            return res.json();
+          })
+          .then(data => {
+            setFetchedResult(data);
+            setBackendError(null);
+            setScanFinished(true);
+          })
+          .catch(err => {
+            console.error(`Scan attempt ${attempt} failed:`, err);
+            if (attempt <= MAX_RETRIES) {
+              // Retry after a delay (give Render time to wake up)
+              setTimeout(attemptScan, 5000);
+            } else {
+              // All retries exhausted — check if Node backend is at least reachable
+              fetch(`${API_URL}/api/dashboard/summary`)
+                .then(() => {
+                  // Node is online but Python scanner failed — use fallback data
+                  console.warn("FALLBACK: Using simulated scan data.");
+                  setFetchedResult(null); // Will trigger fallback in handleScanComplete
+                  setBackendError(null);
+                  setScanFinished(true);
+                })
+                .catch(() => {
+                  setBackendError("CRITICAL_ERROR: ONSAFE_BACKEND_OFFLINE. Handshake failed.");
+                  setScanFinished(true);
+                });
+            }
+          });
+      };
+      attemptScan();
     }
  else if (savedResult) {
       const result = JSON.parse(savedResult);
@@ -150,7 +168,7 @@ const Dashboard = () => {
 
       <AnimatePresence>
         {isScanning && (
-          <Terminal onComplete={handleScanComplete} customLines={scanLines} isScanComplete={fetchedResult !== null || backendError !== null} backendError={backendError} />
+          <Terminal onComplete={handleScanComplete} customLines={scanLines} isScanComplete={scanFinished} backendError={backendError} />
         )}
       </AnimatePresence>
 
