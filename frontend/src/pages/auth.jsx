@@ -13,6 +13,8 @@ const AuthenticationPage = () => {
     e.preventDefault();
     if (email === 'founder@startup.io' && password === 'admin123') {
       localStorage.setItem('onSafe_user', JSON.stringify({ role: 'FOUNDER', email }));
+      localStorage.removeItem('onSafe_scanResult');
+      localStorage.removeItem('onSafe_isScanning');
       window.history.pushState({}, '', '/dashboard');
       window.dispatchEvent(new Event('popstate'));
     } else {
@@ -24,6 +26,8 @@ const AuthenticationPage = () => {
     e.preventDefault();
     if (email === 'operative@onsafe.io') {
       localStorage.setItem('onSafe_user', JSON.stringify({ role: 'OPERATIVE', email }));
+      localStorage.removeItem('onSafe_scanResult');
+      localStorage.removeItem('onSafe_isScanning');
       window.history.pushState({}, '', '/dashboard');
       window.dispatchEvent(new Event('popstate'));
     } else {

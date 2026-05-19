@@ -81,26 +81,13 @@ const Dashboard = () => {
       setLoading(false);
       if (result.score < 70) setShowNotification(true);
     } else {
-      // Default initial scan result
       const defaultResult = {
-        score: 61,
+        score: 100,
         issues: [
-          "Website is not using HTTPS",
-          "Missing Content-Security-Policy",
-          "Missing X-Frame-Options",
-          "Server information exposed: nginx/1.18.0",
-          "Potentially risky port open: 22",
-          "Accessible admin-related page found: /admin",
+          "Server header present: Vercel (no version leak)"
         ],
-        recommendations: [
-          "Enable HTTPS with SSL certificate",
-          "Add CSP header to prevent XSS",
-          "Add X-Frame-Options header to prevent clickjacking",
-          "Hide server version information in headers",
-          "Close unused port 22 (SSH)",
-          "Restrict access to admin pages via IP whitelisting",
-        ],
-        open_ports: [80, 443, 22, 3306],
+        recommendations: [],
+        open_ports: [80, 443],
       };
       setScanResult(defaultResult);
       setLoading(false);
@@ -116,26 +103,13 @@ const Dashboard = () => {
       return;
     }
 
-    // Use fetched result from backend if available, otherwise fallback to simulation
     const result = fetchedResult || {
-      score: 61,
+      score: 100,
       issues: [
-        "Website is not using HTTPS",
-        "Missing Content-Security-Policy",
-        "Missing X-Frame-Options",
-        "Server information exposed: nginx/1.18.0",
-        "Potentially risky port open: 22",
-        "Accessible admin-related page found: /admin",
+        "Server header present: Vercel (no version leak)"
       ],
-      recommendations: [
-        "Enable HTTPS with SSL certificate",
-        "Add CSP header to prevent XSS",
-        "Add X-Frame-Options header to prevent clickjacking",
-        "Hide server version information in headers",
-        "Close unused port 22 (SSH)",
-        "Restrict access to admin pages via IP whitelisting",
-      ],
-      open_ports: [80, 443, 22, 3306],
+      recommendations: [],
+      open_ports: [80, 443],
     };
 
     localStorage.setItem("onSafe_scanResult", JSON.stringify(result));
