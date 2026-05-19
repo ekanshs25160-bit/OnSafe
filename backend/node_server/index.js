@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 const PYTHON_SCANNER_URL = process.env.PYTHON_SCANNER_URL || "https://onsafe-python.onrender.com";
 
 app.use(cors({
-  origin: ["https://on-safe.vercel.app", "http://localhost:5173"] 
+  origin: "*"
 }));
 app.use(express.json());
 

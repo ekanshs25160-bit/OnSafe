@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function Terminal({ onComplete, customLines }) {
+export default function Terminal({ onComplete, customLines, isScanComplete = true, backendError = null }) {
   const terminalLines = customLines || [
     { text: "> initializing OnSafe system...", speed: 30, delay: 300 },
     { text: "> loading modules...", speed: 40, delay: 300 },
@@ -70,13 +70,24 @@ export default function Terminal({ onComplete, customLines }) {
           </p>
         </div>
 
-        {showButton && (
+        {showButton && !backendError && (
           <button 
-            onClick={handleAccess}
-            className="mt-8 px-8 py-3 border border-[#d1b3ff] text-[#d1b3ff] hover:bg-[#d1b3ff] hover:text-black transition duration-300 font-bold tracking-widest block mx-auto relative z-10 text-xs uppercase rounded-lg shadow-[0_0_20px_rgba(209,179,255,0.2)]"
+            onClick={isScanComplete ? handleAccess : undefined}
+            className={`mt-8 px-8 py-3 border transition duration-300 font-bold tracking-widest block mx-auto relative z-10 text-xs uppercase rounded-lg shadow-[0_0_20px_rgba(209,179,255,0.2)] ${isScanComplete ? 'border-[#d1b3ff] text-[#d1b3ff] hover:bg-[#d1b3ff] hover:text-black cursor-pointer' : 'border-white/20 text-white/40 cursor-wait'}`}
           >
-            GENERATE_SECURITY_REPORT
+            {isScanComplete ? "GENERATE_SECURITY_REPORT" : "SCANNING_IN_PROGRESS..."}
           </button>
+        )}
+        {showButton && backendError && (
+          <div className="mt-8 text-center text-red-500 font-mono text-xs uppercase animate-pulse">
+            CRITICAL_ERROR: Handshake Failed. Connection Dropped.
+            <button 
+              onClick={handleAccess}
+              className="mt-4 px-8 py-3 border border-red-500 text-red-500 hover:bg-red-500 hover:text-white transition duration-300 font-bold tracking-widest block mx-auto relative z-10 rounded-lg"
+            >
+              VIEW_DIAGNOSTICS
+            </button>
+          </div>
         )}
       </div>
       <style>{`

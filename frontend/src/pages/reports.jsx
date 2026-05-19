@@ -150,7 +150,7 @@ const Dashboard = () => {
 
       <AnimatePresence>
         {isScanning && (
-          <Terminal onComplete={handleScanComplete} customLines={scanLines} />
+          <Terminal onComplete={handleScanComplete} customLines={scanLines} isScanComplete={fetchedResult !== null || backendError !== null} backendError={backendError} />
         )}
       </AnimatePresence>
 

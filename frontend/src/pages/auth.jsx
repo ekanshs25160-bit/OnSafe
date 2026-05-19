@@ -5,6 +5,29 @@ import Footer from "../components/layout/Footer";
 const AuthenticationPage = () => {
   const [authType, setAuthType] = useState(null); // 'FOUNDER' or 'OPERATIVE'
   const [logs, setLogs] = useState([]);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [authError, setAuthError] = useState('');
+
+  const handleFounderAuth = (e) => {
+    e.preventDefault();
+    if (email === 'founder@startup.io' && password === 'admin123') {
+      localStorage.setItem('onSafe_user', JSON.stringify({ role: 'FOUNDER', email }));
+      window.location.href = '/dashboard';
+    } else {
+      setAuthError('Invalid ACCESS_ID or SECURE_KEY. Try founder@startup.io / admin123');
+    }
+  };
+
+  const handleOperativeAuth = (e) => {
+    e.preventDefault();
+    if (email === 'operative@onsafe.io') {
+      localStorage.setItem('onSafe_user', JSON.stringify({ role: 'OPERATIVE', email }));
+      window.location.href = '/dashboard';
+    } else {
+      setAuthError('Unrecognized Operative COMM_LINK. Try operative@onsafe.io');
+    }
+  };
 
   useEffect(() => {
     const sequence = [
@@ -87,14 +110,15 @@ const AuthenticationPage = () => {
                   <h2 className="font-space font-bold text-2xl text-white uppercase">Founder Uplink</h2>
                </div>
 
-               <form className="space-y-6" onSubmit={(e) => {e.preventDefault(); window.location.href='/dashboard';}}>
+               <form className="space-y-6" onSubmit={handleFounderAuth}>
+                  {authError && <div className="text-red-500 text-xs font-mono mb-4">{authError}</div>}
                   <div>
                      <label className="block font-mono text-[10px] text-[#d1b3ff] tracking-widest uppercase mb-2">ACCESS_ID (Email)</label>
-                     <input type="email" required className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 font-mono text-xs text-white focus:outline-none focus:border-[#d1b3ff] transition-colors" placeholder="founder@startup.io"/>
+                     <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 font-mono text-xs text-white focus:outline-none focus:border-[#d1b3ff] transition-colors" placeholder="founder@startup.io"/>
                   </div>
                   <div>
                      <label className="block font-mono text-[10px] text-[#d1b3ff] tracking-widest uppercase mb-2">SECURE_KEY (Password)</label>
-                     <input type="password" required className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 font-mono text-xs text-white focus:outline-none focus:border-[#d1b3ff] transition-colors" placeholder="••••••••••••"/>
+                     <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 font-mono text-xs text-white focus:outline-none focus:border-[#d1b3ff] transition-colors" placeholder="••••••••••••"/>
                   </div>
 
                   <div className="h-px w-full bg-white/10 my-8"></div>
@@ -150,7 +174,8 @@ const AuthenticationPage = () => {
                    </p>
                </div>
 
-               <form className="space-y-6" onSubmit={(e) => {e.preventDefault(); alert('Verification Submitted. Status: PENDING.');}}>
+               <form className="space-y-6" onSubmit={handleOperativeAuth}>
+                  {authError && <div className="text-red-500 text-xs font-mono mb-4">{authError}</div>}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
                          <label className="block font-mono text-[10px] text-white/70 tracking-widest uppercase mb-2">CALLSIGN (Full Name)</label>
@@ -158,7 +183,7 @@ const AuthenticationPage = () => {
                       </div>
                       <div>
                          <label className="block font-mono text-[10px] text-white/70 tracking-widest uppercase mb-2">COMM_LINK (Email)</label>
-                         <input type="email" required className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 font-mono text-xs text-white focus:outline-none focus:border-[#00f5ff] transition-colors" placeholder="jane.doe@example.com"/>
+                         <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="w-full bg-white/5 border border-white/10 rounded-lg py-3 px-4 font-mono text-xs text-white focus:outline-none focus:border-[#00f5ff] transition-colors" placeholder="operative@onsafe.io"/>
                       </div>
                   </div>
 

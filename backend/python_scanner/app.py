@@ -5,10 +5,7 @@ from scanner import scan_website
 app = Flask(__name__)
 
 # Allow production and development origins
-CORS(app, resources={r"/*": {"origins": [
-    "https://onsafe-node.onrender.com", 
-    "https://on-safe.vercel.app"
-]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 
 @app.route("/ping", methods=["GET"])
