@@ -61,15 +61,22 @@ def scan_website(url):
                 result["issues"].append(f"Missing {header}")
                 result["recommendations"].append(recommendation)
 
-        # Server Disclosure
+        # Server Disclosure (only flag if version number is exposed)
+        import re
         if "Server" in headers:
-            result["score"] -= 10
-            result["issues"].append(
-                f"Server information exposed: {headers['Server']}"
-            )
-            result["recommendations"].append(
-                "Hide server version information"
-            )
+            server_val = headers["Server"]
+            if re.search(r'\d+\.\d+', server_val):
+                result["score"] -= 10
+                result["issues"].append(
+                    f"Server version information exposed: {server_val}"
+                )
+                result["recommendations"].append(
+                    "Hide server version information in headers"
+                )
+            else:
+                result["issues"].append(
+                    f"Server header present: {server_val} (no version leak)"
+                )
 
         # Cookie Security
         cookies = response.cookies
@@ -100,7 +107,7 @@ def scan_website(url):
                 )
 
         # Admin Pages Check
-        admin_paths = ["/admin", "/login", "/dashboard"]
+        admin_paths = ["/admin", "/wp-admin", "/administrator"]
 
         for path in admin_paths:
             try:
@@ -108,8 +115,12 @@ def scan_website(url):
                 admin_response = requests.get(admin_url, timeout=3)
 
                 if admin_response.status_code == 200:
+                    result["score"] -= 5
                     result["issues"].append(
                         f"Accessible admin-related page found: {path}"
+                    )
+                    result["recommendations"].append(
+                        f"Restrict access to {path} via IP whitelisting or authentication"
                     )
 
             except:
