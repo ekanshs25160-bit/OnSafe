@@ -14,6 +14,16 @@ app.use(cors({
 }));
 app.use(express.json());
 
+// Health check endpoint - verify deploy version and python scanner URL
+app.get('/api/ping', (req, res) => {
+  res.json({
+    status: 'online',
+    version: '2.0.1',
+    python_scanner_url: PYTHON_SCANNER_URL,
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Helper to read JSON data
 const getData = (filename) => {
   const filePath = path.join(__dirname, 'data', `${filename}.json`);
