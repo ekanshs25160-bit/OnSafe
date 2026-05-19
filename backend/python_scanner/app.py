@@ -10,7 +10,7 @@ CORS(app, resources={r"/*": {"origins": "*"}})
 
 @app.route("/ping", methods=["GET"])
 def ping():
-    return jsonify({"status": "online", "message": "Backend is reachable"})
+    return jsonify({"status": "online", "message": "Backend is reachable", "version": "2.1.0"})
 
 @app.route("/scan", methods=["GET"])
 def scan():
